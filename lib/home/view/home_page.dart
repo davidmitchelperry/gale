@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
 import 'package:gale/home/home.dart';
+import 'package:gale/todos/todos.dart';
+import 'package:todos_repository/todos_repository.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -38,11 +40,14 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 25),
             RaisedButton(
               key: const Key('test_raisedButton'),
-              child: const Text('TEST'),
+              child: const Text('TEST1'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: const Color(0xFFFFD600),
+              onPressed: () => context
+                  .read<TodosBloc>()
+                  .add(AddTodo(Todo('test task 2'))),
             ),
           ],
         ),

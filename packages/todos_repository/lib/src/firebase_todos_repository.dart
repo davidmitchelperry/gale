@@ -9,6 +9,7 @@ import 'package:todos_repository/todos_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseTodosRepository implements TodosRepository {
+
   final todoCollection = FirebaseFirestore.instance.collection('todos');
 
   @override

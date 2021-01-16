@@ -6,28 +6,69 @@ import 'package:gale/home/home.dart';
 import 'package:gale/login/login.dart';
 import 'package:gale/splash/splash.dart';
 import 'package:gale/theme.dart';
+import 'package:gale/todos/todos.dart';
+import 'package:todos_repository/todos_repository.dart';
 
 class App extends StatelessWidget {
 
   const App({
     Key key,
     @required this.authenticationRepository,
+    @required this.todosRepository,
   })  : assert(authenticationRepository != null),
+        assert(todosRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
+  final TodosRepository todosRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(
+            value: authenticationRepository,
         ),
-        child: AppView(),
-      ),
+        RepositoryProvider.value(
+            value: todosRepository,
+        ),
+      ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthenticationBloc> (
+              create: (_) => AuthenticationBloc(
+                authenticationRepository: authenticationRepository,
+              ),
+            ),
+            BlocProvider<TodosBloc> (
+              create: (_) => TodosBloc(
+                todosRepository: todosRepository,
+              ),
+            ),
+          ],
+          child: AppView(),
+        ),
     );
+    //return RepositoryProvider.value(
+    //  value: authenticationRepository,
+    //  child: MultiBlocProvider(
+    //    providers: [
+    //      BlocProvider<AuthenticationBloc> (
+    //        create: (_) => AuthenticationBloc(
+    //          authenticationRepository: authenticationRepository,
+    //        ),
+    //      ),
+    //      BlocProvider<TodosBloc> (
+    //        create: (context) {
+    //          return TodosBloc(
+
+    //          )
+    //        }
+    //      )
+    //    ],
+    //    child: AppView(),
+    //  ),
+    //);
   }
 }
 

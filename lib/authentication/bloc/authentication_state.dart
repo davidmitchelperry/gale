@@ -1,5 +1,10 @@
 part of 'authentication_bloc.dart';
 
+// DMP - TODO: Change these individual states to different classes. I think
+//             this is better b/c it allows states to have their own
+//             methods, fields, etc. Also, AuthenticationState should be a
+//             abstract class that these individual states implement
+
 enum AuthenticationStatus { authenticated, unauthenticated, unknown }
 
 class AuthenticationState extends Equatable {
