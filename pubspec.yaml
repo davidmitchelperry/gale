@@ -35,6 +35,8 @@ dependencies:
     path: packages/authentication_repository
   todos_repository:
     path: packages/todos_repository
+  profile_repository:
+    path: packages/profile_repository
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.1

@@ -8,6 +8,7 @@ import 'package:gale/splash/splash.dart';
 import 'package:gale/theme.dart';
 import 'package:gale/todos/todos.dart';
 import 'package:todos_repository/todos_repository.dart';
+import 'package:profile_repository/profile_repository.dart';
 
 class App extends StatelessWidget {
 
@@ -15,12 +16,15 @@ class App extends StatelessWidget {
     Key key,
     @required this.authenticationRepository,
     @required this.todosRepository,
+    @required this.profileRepository,
   })  : assert(authenticationRepository != null),
         assert(todosRepository != null),
+        assert(profileRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final TodosRepository todosRepository;
+  final ProfileRepository profileRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider.value(
             value: todosRepository,
+        ),
+        RepositoryProvider.value(
+          value: profileRepository,
         ),
       ],
         child: MultiBlocProvider(
@@ -49,26 +56,6 @@ class App extends StatelessWidget {
           child: AppView(),
         ),
     );
-    //return RepositoryProvider.value(
-    //  value: authenticationRepository,
-    //  child: MultiBlocProvider(
-    //    providers: [
-    //      BlocProvider<AuthenticationBloc> (
-    //        create: (_) => AuthenticationBloc(
-    //          authenticationRepository: authenticationRepository,
-    //        ),
-    //      ),
-    //      BlocProvider<TodosBloc> (
-    //        create: (context) {
-    //          return TodosBloc(
-
-    //          )
-    //        }
-    //      )
-    //    ],
-    //    child: AppView(),
-    //  ),
-    //);
   }
 }
 

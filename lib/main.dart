@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gale/app.dart';
 import 'package:gale/simple_bloc_observer.dart';
 import 'package:todos_repository/todos_repository.dart';
+import 'package:profile_repository/profile_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,5 +17,6 @@ void main() async {
   runApp(App(
       authenticationRepository: AuthenticationRepository(),
       todosRepository: FirebaseTodosRepository(),
+      profileRepository: FirebaseProfileRepository(),
   ));
 }
