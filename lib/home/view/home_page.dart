@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
+import 'package:gale/profile/profile.dart';
+import 'package:profile_repository/profile_repository.dart';
 import 'package:gale/home/home.dart';
 import 'package:gale/todos/todos.dart';
 import 'package:todos_repository/todos_repository.dart';
@@ -47,8 +49,8 @@ class HomePage extends StatelessWidget {
               ),
               color: const Color(0xFFFFD600),
               onPressed: () => context
-                  .read<TodosBloc>()
-                  .add(AddTodo(Todo('test task 2'))),
+                  .read<ProfileBloc>()
+                  .add(CreateProfile(Profile("David", "Perry"), user)),
             ),
           ],
         ),

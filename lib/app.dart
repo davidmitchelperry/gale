@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
+import 'package:gale/profile/profile.dart';
 import 'package:gale/home/home.dart';
 import 'package:gale/login/login.dart';
 import 'package:gale/splash/splash.dart';
@@ -50,6 +51,11 @@ class App extends StatelessWidget {
             BlocProvider<TodosBloc> (
               create: (_) => TodosBloc(
                 todosRepository: todosRepository,
+              ),
+            ),
+            BlocProvider<ProfileBloc> (
+              create: (_) => ProfileBloc(
+                profileRepository: profileRepository,
               ),
             ),
           ],

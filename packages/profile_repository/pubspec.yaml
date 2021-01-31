@@ -13,4 +13,6 @@ dependencies:
   rxdart: ^0.24.0
   equatable: ^1.2.5
   firebase_core: ^0.5.1
+  authentication_repository:
+    path: ../authentication_repository
 
