@@ -10,9 +10,9 @@ abstract class ProfileRepository {
 
   Future<void> createNewProfile(Profile profile, User userid);
 
-  //Future<void> updateProfile(Profile profile);
+  Future<void> updateProfile(Profile profile, User userid);
 
-  //Future<void> readProfile(Profile profile);
+  Future<Profile> readProfile(String userid);
 
-  //Stream<List<Profile>> friendsList(); Just a thought...
+  //Stream<List<Profile>> friendsList(); Just a thought... Maybe make a friends list repo
 }

@@ -16,6 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
+    //final test_text = context.select((ProfileBloc bloc) => bloc.state.profile
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -42,8 +43,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 4.0),
             Text("uid: " + user.id),
             RaisedButton(
-              key: const Key('test_raisedButton'),
-              child: const Text('TEST1'),
+              key: const Key('RB_createProfile'),
+              child: const Text('createProfile'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
@@ -51,6 +52,48 @@ class HomePage extends StatelessWidget {
               onPressed: () => context
                   .read<ProfileBloc>()
                   .add(CreateProfile(Profile("David", "Perry"), user)),
+            ),
+            RaisedButton(
+              key: const Key('RB_updateProfile'),
+              child: const Text('updateProfile'),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              color: const Color(0xFFFFD600),
+              onPressed: () => context
+                  .read<ProfileBloc>()
+                  .add(UpdateProfile(Profile("John", "Smith"), user)),
+            ),
+            BlocBuilder<ProfileBloc, ProfileState>(
+             builder: (context, state) {
+               return Text(
+                   state.test_text,
+                   key: const Key('T_currentProfile'),
+                   textAlign: TextAlign.center,
+               );
+               //if(state is ProfileLoading) {
+               //  return Text(
+               //    state.
+               //    key: const Key('T_currentProfile'),
+               //    textAlign: TextAlign.center,
+               //  );
+               //  //state.profile.fir
+               //  //state.profile
+               //} else if(state is ProfileLoaded) {
+
+               //}
+             },
+            ),
+            RaisedButton(
+              key: const Key('RB_readProfile'),
+              child: const Text('readProfile'),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              color: const Color(0xFFFFD600),
+              onPressed: () => context
+                .read<ProfileBloc>()
+                .add(ReadProfile('ql4QSCHMTQeNM9TwTjebbS2VDxZ2')),
             ),
           ],
         ),

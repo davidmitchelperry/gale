@@ -17,7 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }) : assert(profileRepository != null),
         _profileRepository = profileRepository,
         //_authenticationRepository = authenticationRepository,
-        super(ProfileLoading());
+        super(ProfileLoaded("Initial Profile Loaded"));
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
@@ -26,9 +26,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     } else if (event is CreateProfile) {
      yield* _mapCreateProfileToState(event);
     } else if (event is UpdateProfile) {
-      //yield* _mapUpdateTodoToState(event);
-    } else if (event is ProfileUpdated) {
-      //yield* _mapDeleteTodoToState(event);
+      yield* _mapUpdateProfileToState(event);
+    } else if (event is ReadProfile) {
+      yield* _mapReadProfileToState(event);
+    } else if (event is LoadProfileComplete) {
+      yield* _mapLoadProfileCompleteToState(event);
     }
   }
 
@@ -36,9 +38,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     _profileRepository.createNewProfile(event.profile, event.user);
   }
 
-  //Stream<TodosState> _mapAddTodoToState(AddTodo event) async* {
-  //  _todosRepository.addNewTodo(event.todo);
-  //}
+  Stream<ProfileState> _mapUpdateProfileToState(UpdateProfile event) async* {
+    _profileRepository.updateProfile(event.profile, event.user);
+  }
+
+  Stream<ProfileState> _mapReadProfileToState(ReadProfile event) async* {
+    //event.userid;
+
+
+    //Future<Profile> profile = _profileRepository.readProfile(event.userid);
+    yield ProfileLoading('userid: ${event.userid}');
+    _profileRepository.readProfile(event.userid).then((Profile profile) {
+      //yield ProfileLoaded(profile.firstName);
+      add(LoadProfileComplete(profile.firstName));
+    },
+    onError: (e) {
+
+    });
+  }
+
+  Stream<ProfileState> _mapLoadProfileCompleteToState(LoadProfileComplete event) async* {
+    yield ProfileLoaded(event.userid);
+  }
 
   //Stream<TodosState> _mapUpdateTodoToState(UpdateTodo event) async* {
   //  _todosRepository.updateTodo(event.updatedTodo);

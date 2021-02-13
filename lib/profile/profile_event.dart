@@ -10,7 +10,9 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadProfile extends ProfileEvent {}
+class LoadProfile extends ProfileEvent {
+
+}
 
 class CreateProfile extends ProfileEvent {
 
@@ -26,31 +28,42 @@ class CreateProfile extends ProfileEvent {
   String toString() => 'CreateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
 }
 
-
 class UpdateProfile extends ProfileEvent {
 
-  final Profile updatedProfile;
+  final Profile profile;
+  final User user;
 
-  const UpdateProfile(this.updatedProfile);
-
-  @override
-  List<Object> get props => [updatedProfile];
+  const UpdateProfile(this.profile, this.user);
 
   @override
-  String toString() => 'UpdateProfile { firstName: $updatedProfile.firstName, lastName: $updatedProfile.lastName }';
+  List<Object> get props => [profile];
 
+  @override
+  String toString() => 'UpdateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
 }
 
-class ProfileUpdated extends ProfileEvent {
-  final Profile updatedProfile;
+class ReadProfile extends ProfileEvent {
+  final String userid;
 
-  const ProfileUpdated(this.updatedProfile);
-
-  @override
-  List<Object> get props => [updatedProfile];
+  const ReadProfile(this.userid);
 
   @override
-  String toString() => 'ProfileUpdated { firstName: $updatedProfile.firstName, lastName: $updatedProfile.lastName }';
+  List<Object> get props => [userid];
+
+  @override
+  String toString() => 'ReadProfile { userid: $userid }';
+}
+
+class LoadProfileComplete extends ProfileEvent {
+  final String userid;
+
+  const LoadProfileComplete(this.userid);
+
+  @override
+  List<Object> get props => [userid];
+
+  @override
+  String toString() => 'ProfileLoadComplte { userid: $userid }';
 }
 
 

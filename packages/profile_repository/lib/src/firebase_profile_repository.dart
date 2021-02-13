@@ -11,23 +11,34 @@ import 'entities/entities.dart';
 
 class FirebaseProfileRepository implements ProfileRepository {
 
-  final profiles = FirebaseFirestore.instance.collection("profiles");
+  final profileCollection = FirebaseFirestore.instance.collection("profiles");
 
   @override
   Future<void> createNewProfile(Profile profile, User user) {
-    return profiles.doc(user.id).set(
+    return profileCollection.doc(user.id).set(
       {
         "firstName" : profile.firstName,
         "lastName" : profile.lastName,
       }
     );
-    //return todoCollection.add(todo.toEntity().toDocument());
   }
 
-  //@override
-  //Future<void> updateProfile(Profile profile) {
-  //  return profiles.doc(update.id).update(update.toEntity().toDocument());
-  //}
+  @override
+  Future<void> updateProfile(Profile profile, User user) {
+    return profileCollection.doc(user.id).set(
+        {
+          "firstName" : profile.firstName,
+          "lastName" : profile.lastName,
+        }
+    );
+  }
+
+  @override
+  Future<Profile> readProfile(String userid) async {
+    var snapshot = await profileCollection.doc(userid).get();
+    var pe = ProfileEntity.fromSnapshot(snapshot);
+    return Profile.fromEntity(pe);
+  }
 
 //@override
   //Future<void> deleteTodo(Profile todo) async {
