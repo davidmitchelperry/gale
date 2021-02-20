@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
 import 'package:gale/profile/profile.dart';
+
+// TODO: Probably not a good idea to touch repos in views. Should handle all that in BLoC code
 import 'package:profile_repository/profile_repository.dart';
 
 class ProfilePage extends StatelessWidget {

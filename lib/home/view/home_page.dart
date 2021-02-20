@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
+import 'package:gale/chat/view/chat_page.dart';
 import 'package:gale/profile/profile.dart';
 import 'package:gale/home/home.dart';
 import 'package:gale/todos/todos.dart';
@@ -57,8 +58,20 @@ class HomePage extends StatelessWidget {
                   ProfilePage.route(),
                 );
               }
-                  //.read<ProfileBloc>()
-                  //.add(CreateProfile(Profile("David", "Perry"), user)),
+            ),
+            RaisedButton(
+                key: const Key('RB_gotoChat'),
+                child: const Text('Goto Chat'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                color: const Color(0xFFFFD600),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    ChatPage.route(),
+                  );
+                }
             ),
           ],
         ),
