@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
 import 'package:gale/profile/profile.dart';
-import 'package:profile_repository/profile_repository.dart';
 import 'package:gale/home/home.dart';
 import 'package:gale/todos/todos.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 class HomePage extends StatelessWidget {
+
+  //final _navigatorKey = GlobalKey<NavigatorState>();
+  //NavigatorState get _navigator => _navigatorKey.currentState;
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomePage());
   }
@@ -35,7 +38,6 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Avatar(photo: user.photo),
             const SizedBox(height: 4.0),
             Text(user.email, style: textTheme.headline6),
             const SizedBox(height: 4.0),
@@ -43,57 +45,20 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 4.0),
             Text("uid: " + user.id),
             RaisedButton(
-              key: const Key('RB_createProfile'),
-              child: const Text('createProfile'),
+              key: const Key('RB_gotoProfile'),
+              child: const Text('Goto Profile'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: const Color(0xFFFFD600),
-              onPressed: () => context
-                  .read<ProfileBloc>()
-                  .add(CreateProfile(Profile("David", "Perry"), user)),
-            ),
-            RaisedButton(
-              key: const Key('RB_updateProfile'),
-              child: const Text('updateProfile'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: const Color(0xFFFFD600),
-              onPressed: () => context
-                  .read<ProfileBloc>()
-                  .add(UpdateProfile(Profile("John", "Smith"), user)),
-            ),
-            BlocBuilder<ProfileBloc, ProfileState>(
-             builder: (context, state) {
-               return Text(
-                   state.test_text,
-                   key: const Key('T_currentProfile'),
-                   textAlign: TextAlign.center,
-               );
-               //if(state is ProfileLoading) {
-               //  return Text(
-               //    state.
-               //    key: const Key('T_currentProfile'),
-               //    textAlign: TextAlign.center,
-               //  );
-               //  //state.profile.fir
-               //  //state.profile
-               //} else if(state is ProfileLoaded) {
-
-               //}
-             },
-            ),
-            RaisedButton(
-              key: const Key('RB_readProfile'),
-              child: const Text('readProfile'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: const Color(0xFFFFD600),
-              onPressed: () => context
-                .read<ProfileBloc>()
-                .add(ReadProfile('ql4QSCHMTQeNM9TwTjebbS2VDxZ2')),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  ProfilePage.route(),
+                );
+              }
+                  //.read<ProfileBloc>()
+                  //.add(CreateProfile(Profile("David", "Perry"), user)),
             ),
           ],
         ),
