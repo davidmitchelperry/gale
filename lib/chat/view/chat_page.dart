@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:gale/chat/widgets/message_list_item.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatPage extends StatelessWidget {
 
   final User user;
 
-  ChatScreen({this.user});
+  ChatPage({this.user});
 
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => ChatScreen());
+    return MaterialPageRoute<void>(builder: (_) => ChatPage());
   }
 
   @override

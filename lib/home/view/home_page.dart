@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
-import 'package:gale/chat/view/chat_page.dart';
+//import 'package:gale/chat/view/chat_page.dart';
+import 'package:gale/chat/chat.dart';
 import 'package:gale/profile/profile.dart';
 import 'package:gale/home/home.dart';
 import 'package:gale/todos/todos.dart';
@@ -69,7 +70,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    ChatScreen.route(),
+                    ChatsPage.route(),
                   );
                 }
             ),
