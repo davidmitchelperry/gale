@@ -1,38 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gale/authentication/authentication.dart';
-import 'package:gale/profile/profile.dart';
+import 'package:gale/chat/chat.dart';
+import 'package:gale/chat/widgets/message_list_item.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatScreen extends StatelessWidget {
+
+  final User user;
+
+  ChatScreen({this.user});
 
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => ChatPage());
+    return MaterialPageRoute<void>(builder: (_) => ChatScreen());
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    //final test_text = context.select((ProfileBloc bloc) => bloc.state.profile
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        title: const Text('Chat'),
+        title: Text(
+          //widget.user.name,
+          "test",
+          style: TextStyle(
+            fontSize: 28.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        elevation: 0.0,
         actions: <Widget>[
           IconButton(
-            key: const Key('profilePage_logout_iconButton'),
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () => context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationLogoutRequested()),
-          )
+            icon: Icon(Icons.more_horiz),
+            iconSize: 30.0,
+            color: Colors.white,
+            onPressed: () {},
+          ),
         ],
       ),
-      body: Align(
-        alignment: const Alignment(0, -1 / 3),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Avatar(photo: user.photo),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
+                  child: ListView.builder(
+                    reverse: true,
+                    padding: EdgeInsets.only(top: 15.0),
+                    itemCount: messages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Message message = messages[index];
+                      final bool isMe = message.sender.id == currentUser.id;
+                      return MessageListItem(message, isMe);
+                    },
+                  ),
+                ),
+              ),
+            ),
+            MessageComposer(),
+            //_buildMessageComposer(context),
           ],
         ),
       ),

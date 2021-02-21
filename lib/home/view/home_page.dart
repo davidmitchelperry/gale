@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    ChatPage.route(),
+                    ChatScreen.route(),
                   );
                 }
             ),
