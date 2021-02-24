@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
+import 'package:gale/chat/bloc/chat_bloc.dart';
 import 'package:gale/profile/profile.dart';
 import 'package:gale/home/home.dart';
 import 'package:gale/login/login.dart';
@@ -9,6 +10,7 @@ import 'package:gale/splash/splash.dart';
 import 'package:gale/theme.dart';
 import 'package:gale/todos/todos.dart';
 import 'package:todos_repository/todos_repository.dart';
+import 'package:chat_repository/chat_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 
 class App extends StatelessWidget {
@@ -18,14 +20,17 @@ class App extends StatelessWidget {
     @required this.authenticationRepository,
     @required this.todosRepository,
     @required this.profileRepository,
+    @required this.chatRepository,
   })  : assert(authenticationRepository != null),
         assert(todosRepository != null),
         assert(profileRepository != null),
+        assert(chatRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final TodosRepository todosRepository;
   final ProfileRepository profileRepository;
+  final ChatRepository chatRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +44,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider.value(
           value: profileRepository,
+        ),
+        RepositoryProvider.value(
+          value: chatRepository,
         ),
       ],
         child: MultiBlocProvider(
@@ -58,8 +66,15 @@ class App extends StatelessWidget {
                 profileRepository: profileRepository,
               ),
             ),
+            BlocProvider<ChatBloc> (
+              create: (_) => ChatBloc(
+                chatRepository: chatRepository,
+                authenticationRepository: authenticationRepository,
+              )
+            )
           ],
           child: AppView(),
+          //child: Text("test"),
         ),
     );
   }

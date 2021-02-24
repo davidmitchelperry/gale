@@ -43,10 +43,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _mapReadProfileToState(ReadProfile event) async* {
-    //event.userid;
-
-
-    //Future<Profile> profile = _profileRepository.readProfile(event.userid);
     yield ProfileLoading('userid: ${event.userid}');
     _profileRepository.readProfile(event.userid).then((Profile profile) {
       //yield ProfileLoaded(profile.firstName);

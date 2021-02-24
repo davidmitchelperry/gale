@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:gale/chat/widgets/message_list_item.dart';
+import 'package:gale/authentication/authentication.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatPage extends StatelessWidget {
 
@@ -14,12 +16,13 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: Text(
-          //widget.user.name,
-          "test",
+          user.name,
+          //"test",
           style: TextStyle(
             fontSize: 28.0,
             fontWeight: FontWeight.bold,

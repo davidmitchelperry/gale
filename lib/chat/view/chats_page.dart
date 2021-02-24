@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/chat/chat.dart';
+import 'package:chat_repository/chat_repository.dart';
+import 'package:gale/chat/chat.dart';
+import 'package:gale/authentication/authentication.dart';
 
 class ChatsPage extends StatelessWidget {
 
@@ -9,6 +13,7 @@ class ChatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -37,6 +42,15 @@ class ChatsPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
+          BlocBuilder<ChatBloc, ChatState>(
+            builder: (context, state) {
+              return Text(
+                state.chatId,
+                textAlign: TextAlign.center,
+              );
+            },
+          ),
+          //Text("RAWR"),
           CategorySelector(),
           Expanded(
             child: Container(
@@ -49,7 +63,6 @@ class ChatsPage extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  FavoriteContacts(),
                   RecentChats(),
                 ],
               ),
