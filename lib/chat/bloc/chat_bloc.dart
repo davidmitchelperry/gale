@@ -9,6 +9,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository _chatRepository;
   StreamSubscription _chatSubscription;
+  StreamSubscription _chatsSubscription;
   final AuthenticationRepository _authenticationRepository;
 
   ChatBloc({
@@ -17,13 +18,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   })  : assert(chatRepository != null),
         _chatRepository = chatRepository,
         _authenticationRepository = authenticationRepository,
-        super(ChatLoaded("Initial Chat Loaded")) {
+        super(ChatLoaded([])) {
           authenticationRepository.user.listen(
             (user) {
-              _chatSubscription =
-                chatRepository.openChats(user.id).listen(
-                      (event) => add(LoadChat(event.chatId)),
-                );
+              //_chatSubscription =
+              //  chatRepository.chatIds(user.id).listen(
+              //        (event) => add(LoadChat(event.chatIds)),
+              //  );
+              _chatsSubscription =
+                  chatRepository.getChat(user.id, "userid1").listen(
+                        (msg) => add(LoadChat([msg.toString()])),
+                  );
             }
           );
         }
@@ -31,7 +36,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Stream<ChatState> mapEventToState(ChatEvent event) async* {
     if (event is LoadChat) {
-      yield ChatLoaded(event.chatId);
+      yield ChatLoaded(event.chatIds);
       //yield* _mapLoadChatToState();
     }
     //else if (event is CreateChat) {

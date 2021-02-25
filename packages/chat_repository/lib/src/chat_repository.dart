@@ -5,7 +5,11 @@ import 'package:chat_repository/src/models/models.dart';
 
 abstract class ChatRepository {
 
- Stream<OpenChats> openChats(String userid);
+ Stream<Users> chatIds(String userid);
+
+ Stream<Message> getChat(String myUserId, String theirUserId);
+
+ //Stream<Users>
 
   //Future<void> createNewProfile(Profile profile, User userid);
 

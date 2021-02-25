@@ -12,15 +12,15 @@ abstract class ChatEvent extends Equatable {
 
 class LoadChat extends ChatEvent {
 
-  final String chatId;
+  final List<String> chatIds;
 
-  const LoadChat(this.chatId);
-
-  @override
-  List<Object> get props => [chatId];
+  const LoadChat(this.chatIds);
 
   @override
-  String toString() => 'LoadChat { chatId: $chatId }';
+  List<Object> get props => [chatIds];
+
+  @override
+  String toString() => 'LoadChat { chatIds: $chatIds }';
 }
 
 

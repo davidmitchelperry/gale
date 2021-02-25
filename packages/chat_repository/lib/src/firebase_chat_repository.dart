@@ -6,42 +6,30 @@ import 'entities/entities.dart';
 
 class FirebaseChatRepository implements ChatRepository {
 
-  final openChatsCollection = FirebaseFirestore.instance.collection('users');
-
-  //@override
-  //Future<void> addNewTodo(Todo todo) {
-  //  return todoCollection.add(todo.toEntity().toDocument());
-  //}
-
-  //@override
-  //Future<void> deleteTodo(Todo todo) async {
-  //  return todoCollection.doc(todo.id).delete();
-  //}
+  final _usersCollection = FirebaseFirestore.instance.collection('users');
+  final _chatsCollection = FirebaseFirestore.instance.collection('chats');
 
   @override
-  Stream<OpenChats> openChats(String userid) {
-    Stream documentStream = openChatsCollection.doc(userid).snapshots();
-    return documentStream.map((snapshot) {
-      return OpenChats.fromEntity(OpenChatsEntity.fromSnapshot(snapshot));
+  Stream<Users> chatIds(String userid) {
+    Stream documentStream = _usersCollection.doc(userid).snapshots();
+    return documentStream.map<Users>((snapshot) {
+      return Users.fromEntity(UsersEntity.fromSnapshot(snapshot));
     });
-
-    //return documentStream;
-    //return openChatsCollection.snapshots().map((snapshot) {
-    //  return OpenChats.fromEntity(OpenChatsEntity.fromSnapshot(snapshot));
-    //});
-
-    //openChatsCollection.doc(userid).get().then((value) { //  return OpenChats.fromEntity(OpenChatsEntity.fromSnapshot(value));
-    //});
-    //return
-    //OpenChatsEntity.fromSnapshot(openChatsCollection.doc(userid).get());
-    //return openChatsCollection.snapshots().map((snapshot) {
-    //  //snapshot[]
-    //  //return OpenChats.fromEntity(OpenChatsEntity.fromSnapshot(snapshot));
-    //});
   }
 
-  //@override
-  //Future<void> updateTodo(Todo update) {
-  //  return todoCollection.doc(update.id).update(update.toEntity().toDocument());
-  //}
+  String _getChatId(String myUserId, String theirUserId) {
+    // Sort both user ids and join them to get chat id
+    var chatIds = [myUserId, theirUserId];
+    chatIds.sort();
+    return chatIds.join();
+  }
+
+  @override
+  Stream<Message> getChat(String myUserId, String theirUserId) {
+    var chatId = _getChatId(myUserId, theirUserId);
+    Stream chatStream = _chatsCollection.doc(chatId).collection('messages').snapshots();
+    return chatStream.map<Message>((snapshot) {
+      return Message.fromEntity(MessageEntity.fromSnapshot(snapshot));
+    });
+  }
 }

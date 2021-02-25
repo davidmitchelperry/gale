@@ -45,12 +45,11 @@ class ChatsPage extends StatelessWidget {
           BlocBuilder<ChatBloc, ChatState>(
             builder: (context, state) {
               return Text(
-                state.chatId,
+                state.chatIds.toString(),
                 textAlign: TextAlign.center,
               );
             },
           ),
-          //Text("RAWR"),
           CategorySelector(),
           Expanded(
             child: Container(

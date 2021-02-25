@@ -4,34 +4,34 @@ import 'package:profile_repository/profile_repository.dart';
 abstract class ChatState extends Equatable {
 
   //final Future<Profile> profile;
-  final String chatId;
+  final List<String> chatIds;
 
-  const ChatState(this.chatId);
+  const ChatState(this.chatIds);
 
   @override
-  List<Object> get props => [chatId];
+  List<Object> get props => [chatIds];
 }
 
 class ChatLoading extends ChatState {
 
-  const ChatLoading(String chatId) : super(chatId);
+  const ChatLoading(List<String> chatIds) : super(chatIds);
 
   @override
-  List<Object> get props => [chatId];
+  List<Object> get props => [chatIds];
 
   @override
-  String toString() => 'ProfileLoading { chatId: $chatId }';
+  String toString() => 'ProfileLoading { chatIds: $chatIds }';
 }
 
 class ChatLoaded extends ChatState {
 
-  const ChatLoaded(String chatId) : super(chatId);
+  const ChatLoaded(List<String> chatIds) : super(chatIds);
 
   @override
-  List<Object> get props => [chatId];
+  List<Object> get props => [chatIds];
 
   @override
-  String toString() => 'ChatLoaded {chatId: $chatId }';
+  String toString() => 'ChatLoaded {chatIds: $chatIds }';
 }
 
 //class ProfileCouldNotLoad extends ProfileState {
