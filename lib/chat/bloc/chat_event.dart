@@ -1,3 +1,4 @@
+import 'package:chat_repository/chat_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:profile_repository/profile_repository.dart';
@@ -5,22 +6,22 @@ import 'package:authentication_repository/authentication_repository.dart';
 
 abstract class ChatEvent extends Equatable {
   const ChatEvent();
-
   @override
   List<Object> get props => [];
 }
 
 class LoadChat extends ChatEvent {
 
-  final List<String> chatIds;
+  final String userid;
+  final MessageHistory messageHistory;
 
-  const LoadChat(this.chatIds);
-
-  @override
-  List<Object> get props => [chatIds];
+  const LoadChat(this.userid, this.messageHistory);
 
   @override
-  String toString() => 'LoadChat { chatIds: $chatIds }';
+  List<Object> get props => [userid];
+
+  @override
+  String toString() => 'LoadChat { userid: $userid }';
 }
 
 

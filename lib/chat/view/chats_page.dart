@@ -13,62 +13,72 @@ class ChatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 30.0,
-          color: Colors.white,
-          onPressed: () {},
-        ),
-        title: Text(
-          'Chats',
-          style: TextStyle(
-            fontSize: 28.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            iconSize: 30.0,
-            color: Colors.white,
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          BlocBuilder<ChatBloc, ChatState>(
-            builder: (context, state) {
-              return Text(
-                state.chatIds.toString(),
-                textAlign: TextAlign.center,
-              );
-            },
-          ),
-          CategorySelector(),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  RecentChats(),
-                ],
+    final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
+
+    return BlocBuilder<ChatBloc, ChatState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Theme
+              .of(context)
+              .primaryColor,
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.menu),
+              iconSize: 30.0,
+              color: Colors.white,
+              onPressed: () {},
+            ),
+            title: Text(
+              'Chats',
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            elevation: 0.0,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                iconSize: 30.0,
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+          body: Column(
+            children: <Widget>[
+              BlocBuilder<ChatBloc, ChatState>(
+                builder: (context, state) {
+                  return Text(
+                    state.chatsMap.toString(),
+                    textAlign: TextAlign.center,
+                  );
+                },
+              ),
+              CategorySelector(),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme
+                        .of(context)
+                        .accentColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      RecentChats(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      });
   }
 }

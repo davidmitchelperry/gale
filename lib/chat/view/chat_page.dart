@@ -1,3 +1,4 @@
+import 'package:chat_repository/chat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:gale/chat/widgets/message_list_item.dart';
@@ -6,23 +7,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatPage extends StatelessWidget {
 
-  final User user;
+  final String userid;
 
-  ChatPage({this.user});
+  ChatPage({this.userid});
 
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => ChatPage());
-  }
+  //Route route() {
+  //  return MaterialPageRoute<void>(builder: (_) => ChatPage());
+  //}
 
   @override
   Widget build(BuildContext context) {
+
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
+    final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
+
+    //chatsMap[user.id]
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: Text(
-          user.name,
-          //"test",
+          //user.name,
+          "test",
           style: TextStyle(
             fontSize: 28.0,
             fontWeight: FontWeight.bold,
@@ -59,10 +65,10 @@ class ChatPage extends StatelessWidget {
                   child: ListView.builder(
                     reverse: true,
                     padding: EdgeInsets.only(top: 15.0),
-                    itemCount: messages.length,
+                    itemCount: chatsMap[userid].messages.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final Message message = messages[index];
-                      final bool isMe = message.sender.id == currentUser.id;
+                      final Message message = chatsMap[userid].messages[index];
+                      final bool isMe = userid == user.id;
                       return MessageListItem(message, isMe);
                     },
                   ),

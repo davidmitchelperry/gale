@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gale/chat/chat.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:chat_repository/chat_repository.dart';
 
 class RecentChats extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
+    // Get information you need from BLoCs
+    final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
+
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -19,13 +26,17 @@ class RecentChats extends StatelessWidget {
             topRight: Radius.circular(30.0),
           ),
           child: ListView.builder(
-            itemCount: chats.length,
+            itemCount: chatsMap.length,
             itemBuilder: (BuildContext context, int index) {
-              final Message chat = chats[index];
+              final String userid = chatsMap.keys.toList()[index];
+              final Message chat = chatsMap[userid].messages.last;
               return GestureDetector(
                 onTap: () => Navigator.push(
                   context,
-                  ChatPage.route()
+                  //ChatPage.route()
+                  MaterialPageRoute(
+                    builder: (context) => ChatPage(userid: userid),
+                  )
                 ),
                 child: Container(
                   margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
@@ -52,7 +63,7 @@ class RecentChats extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                chat.sender.name,
+                                chat.sender,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 15.0,

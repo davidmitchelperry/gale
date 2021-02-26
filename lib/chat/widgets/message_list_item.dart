@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chat_repository/chat_repository.dart';
 import 'package:gale/chat/chat.dart';
 
 class MessageListItem extends StatelessWidget {

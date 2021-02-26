@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 
 class MessageEntity extends Equatable {
 
+  final int id;
   final bool isLiked;
   final String sender;
   final String time; // Would usually be type DateTime or Firebase Timestamp in production apps
@@ -14,6 +15,7 @@ class MessageEntity extends Equatable {
   final bool unread;
 
   const MessageEntity({
+    this.id,
     this.sender,
     this.time,
     this.text,
@@ -22,23 +24,24 @@ class MessageEntity extends Equatable {
   });
 
   @override
-  List<Object> get props => [sender, time, text, isLiked, unread];
+  List<Object> get props => [id, sender, time, text, isLiked, unread];
 
   @override
   String toString() {
-    return 'MessageEntity { sender: $sender, time: $time, text: $text, isLiked: $isLiked, unread: $unread  }';
+    return 'MessageEntity { id: $id, sender: $sender, time: $time, text: $text, isLiked: $isLiked, unread: $unread  }';
   }
 
-  static MessageEntity fromSnapshot(QuerySnapshot snap) {
+  static MessageEntity fromSnapshot(DocumentSnapshot snap) {
 
     // `snap` is a snapshot for the collection, thus we must index it
     // (like an array) and use the first message for testing purposes
     return MessageEntity(
-      sender: snap.docs[0].data()['sender'],
-      time: snap.docs[0].data()['time'],
-      text: snap.docs[0].data()['text'],
-      isLiked: snap.docs[0].data()['isLiked'],
-      unread: snap.docs[0].data()['unread'],
+      id: snap.data()['id'],
+      sender: snap.data()['sender'],
+      time: snap.data()['time'],
+      text: snap.data()['text'],
+      isLiked: snap.data()['isLiked'],
+      unread: snap.data()['unread'],
     );
   }
 

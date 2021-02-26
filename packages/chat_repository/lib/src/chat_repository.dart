@@ -7,7 +7,7 @@ abstract class ChatRepository {
 
  Stream<Users> chatIds(String userid);
 
- Stream<Message> getChat(String myUserId, String theirUserId);
+ Stream<MessageHistory> getChatStream(String myUserId, String theirUserId);
 
  //Stream<Users>
 

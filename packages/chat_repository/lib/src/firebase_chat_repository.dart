@@ -25,11 +25,11 @@ class FirebaseChatRepository implements ChatRepository {
   }
 
   @override
-  Stream<Message> getChat(String myUserId, String theirUserId) {
+  Stream<MessageHistory> getChatStream(String myUserId, String theirUserId) {
     var chatId = _getChatId(myUserId, theirUserId);
     Stream chatStream = _chatsCollection.doc(chatId).collection('messages').snapshots();
-    return chatStream.map<Message>((snapshot) {
-      return Message.fromEntity(MessageEntity.fromSnapshot(snapshot));
+    return chatStream.map<MessageHistory>((snapshot) {
+      return MessageHistory.fromEntity(MessageHistoryEntity.fromSnapshot(snapshot));
     });
   }
 }
