@@ -17,7 +17,7 @@ class ChatsPage extends StatelessWidget {
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
 
-    return BlocBuilder<ChatBloc, ChatState>(
+    return BlocBuilder<ChatBloc, ChatsState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Theme
@@ -49,7 +49,7 @@ class ChatsPage extends StatelessWidget {
           ),
           body: Column(
             children: <Widget>[
-              BlocBuilder<ChatBloc, ChatState>(
+              BlocBuilder<ChatBloc, ChatsState>(
                 builder: (context, state) {
                   return Text(
                     state.chatsMap.toString(),

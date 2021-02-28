@@ -44,42 +44,42 @@ class ChatPage extends StatelessWidget {
           ),
         ],
       ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0),
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0),
-                  ),
-                  child: ListView.builder(
-                    reverse: true,
-                    padding: EdgeInsets.only(top: 15.0),
-                    itemCount: chatsMap[userid].messages.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Message message = chatsMap[userid].messages[index];
-                      final bool isMe = userid == user.id;
-                      return MessageListItem(message, isMe);
-                    },
-                  ),
-                ),
-              ),
-            ),
-            MessageComposer(),
-            //_buildMessageComposer(context),
-          ],
-        ),
-      ),
+      //body: GestureDetector(
+      //  onTap: () => FocusScope.of(context).unfocus(),
+      //  child: Column(
+      //    children: <Widget>[
+      //      Expanded(
+      //        child: Container(
+      //          decoration: BoxDecoration(
+      //            color: Colors.white,
+      //            borderRadius: BorderRadius.only(
+      //              topLeft: Radius.circular(30.0),
+      //              topRight: Radius.circular(30.0),
+      //            ),
+      //          ),
+      //          child: ClipRRect(
+      //            borderRadius: BorderRadius.only(
+      //              topLeft: Radius.circular(30.0),
+      //              topRight: Radius.circular(30.0),
+      //            ),
+      //            child: ListView.builder(
+      //              reverse: true,
+      //              padding: EdgeInsets.only(top: 15.0),
+      //              itemCount: chatsMap[userid].messages.length,
+      //              itemBuilder: (BuildContext context, int index) {
+      //                final Message message = chatsMap[userid].messages[index];
+      //                final bool isMe = userid == user.id;
+      //                return MessageListItem(message, isMe);
+      //              },
+      //            ),
+      //          ),
+      //        ),
+      //      ),
+      //      MessageComposer(),
+      //      //_buildMessageComposer(context),
+      //    ],
+      //  ),
+      //),
     );
   }
 }

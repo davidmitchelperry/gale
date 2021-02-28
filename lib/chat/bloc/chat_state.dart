@@ -1,51 +1,20 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:profile_repository/profile_repository.dart';
 import 'package:chat_repository/chat_repository.dart';
 
-abstract class ChatState extends Equatable {
+class ChatsState extends Equatable {
+  // Visual State information
+  final Map<String, Message> chatsMap;
 
-  final Map<String, MessageHistory> chatsMap;
+  // Internal State Information
+  final Map<String, StreamSubscription<MessageHistory>> chatsSubscriptionMap;
+  final List<String> chatsUserIds;
 
-  const ChatState(this.chatsMap);
+  const ChatsState(this.chatsMap, this.chatsSubscriptionMap, this.chatsUserIds);
 
   @override
-  List<Object> get props => [chatsMap];
+  List<Object> get props => [chatsMap, chatsSubscriptionMap, this.chatsUserIds];
 }
-
-class ChatInitial extends ChatState {
-
-  const ChatInitial(Map<String, MessageHistory> chatsMap) : super(chatsMap);
-
-  @override
-  List<Object> get props => [chatsMap];
-
-  @override
-  String toString() => 'ProfileLoading { chatsMap: $chatsMap }';
-}
-
-class ChatLoading extends ChatState {
-
-  const ChatLoading(Map<String, MessageHistory> chatsMap) : super(chatsMap);
-
-  @override
-  List<Object> get props => [chatsMap];
-
-  @override
-  String toString() => 'ProfileLoading { chatsMap: $chatsMap }';
-}
-
-class ChatLoaded extends ChatState {
-
-  const ChatLoaded(Map<String, MessageHistory> chatsMap) : super(chatsMap);
-
-  @override
-  List<Object> get props => [chatsMap];
-
-  @override
-  String toString() => 'ChatLoaded {chatsMap: $chatsMap }';
-}
-
-//class ProfileCouldNotLoad extends ProfileState {
-//  const ProfileCouldNotLoad()
-//}

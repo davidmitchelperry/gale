@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_repository/chat_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -10,83 +12,57 @@ abstract class ChatEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadChat extends ChatEvent {
+class ChatPartnersUpdateEvent extends ChatEvent {
+
+  final List<String> userids;
+
+  const ChatPartnersUpdateEvent(this.userids);
+
+  @override
+  List<Object> get props => [userids];
+
+  @override
+  String toString() => 'ChatPartnersUpdate { userids: $userids }';
+
+}
+
+class NewChatPartnerEvent extends ChatEvent {
 
   final String userid;
-  final MessageHistory messageHistory;
 
-  const LoadChat(this.userid, this.messageHistory);
+  const NewChatPartnerEvent(this.userid);
 
   @override
   List<Object> get props => [userid];
 
   @override
-  String toString() => 'LoadChat { userid: $userid }';
+  String toString() => 'NewChatPartnerEvent { userid: $userid }';
+
 }
 
+class NewMessageEvent extends ChatEvent {
 
-//class CreateProfile extends ProfileEvent {
-//
-//  final Profile profile;
-//  final User user;
-//
-//  const CreateProfile(this.profile, this.user);
-//
-//  @override
-//  List<Object> get props => [profile];
-//
-//  @override
-//  String toString() => 'CreateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
-//}
+  final String userid;
+  final Message message;
 
-//class UpdateProfile extends ProfileEvent {
-//
-//  final Profile profile;
-//  final User user;
-//
-//  const UpdateProfile(this.profile, this.user);
-//
-//  @override
-//  List<Object> get props => [profile];
-//
-//  @override
-//  String toString() => 'UpdateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
-//}
-//
-//class ReadProfile extends ProfileEvent {
-//  final String userid;
-//
-//  const ReadProfile(this.userid);
-//
-//  @override
-//  List<Object> get props => [userid];
-//
-//  @override
-//  String toString() => 'ReadProfile { userid: $userid }';
-//}
-//
-//class LoadProfileComplete extends ProfileEvent {
-//  final String userid;
-//
-//  const LoadProfileComplete(this.userid);
-//
-//  @override
-//  List<Object> get props => [userid];
-//
-//  @override
-//  String toString() => 'ProfileLoadComplte { userid: $userid }';
-//}
+  const NewMessageEvent(this.userid, this.message);
 
+  @override
+  List<Object> get props => [userid, message];
 
-//class DeleteProfile extends ProfileEvent {
-//  final  todo;
-//
-//  const DeleteTodo(this.todo);
-//
-//  @override
-//  List<Object> get props => [todo];
-//
-//  @override
-//  String toString() => 'DeleteTodo { todo: $todo }';
-//}
+  @override
+  String toString() => 'NewMessageEvent { userid: $userid, message: $message }';
+}
 
+class ChatExpiredEvent extends ChatEvent {
+
+  final String userid;
+
+  const ChatExpiredEvent(this.userid);
+
+  @override
+  List<Object> get props => [userid];
+
+  @override
+  String toString() => 'ChatExpiredEvent { userid: $userid }';
+}

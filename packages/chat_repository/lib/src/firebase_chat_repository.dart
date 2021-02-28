@@ -10,7 +10,7 @@ class FirebaseChatRepository implements ChatRepository {
   final _chatsCollection = FirebaseFirestore.instance.collection('chats');
 
   @override
-  Stream<Users> chatIds(String userid) {
+  Stream<Users> users(String userid) {
     Stream documentStream = _usersCollection.doc(userid).snapshots();
     return documentStream.map<Users>((snapshot) {
       return Users.fromEntity(UsersEntity.fromSnapshot(snapshot));
@@ -32,4 +32,5 @@ class FirebaseChatRepository implements ChatRepository {
       return MessageHistory.fromEntity(MessageHistoryEntity.fromSnapshot(snapshot));
     });
   }
+
 }

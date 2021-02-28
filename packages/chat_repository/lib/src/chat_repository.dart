@@ -5,7 +5,7 @@ import 'package:chat_repository/src/models/models.dart';
 
 abstract class ChatRepository {
 
- Stream<Users> chatIds(String userid);
+ Stream<Users> users(String userid);
 
  Stream<MessageHistory> getChatStream(String myUserId, String theirUserId);
 
