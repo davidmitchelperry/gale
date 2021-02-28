@@ -22,7 +22,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
   })  : assert(chatRepository != null),
         _chatRepository = chatRepository,
         _authenticationRepository = authenticationRepository,
-        super(ChatsState({}, {}, [])) {
+        super(ChatsState({}, {})) {
     authenticationRepository.user.listen((user) {
       u = user;
       _chatRepository.users(user.id).listen((me) {
@@ -45,43 +45,25 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
   }
 
   Stream<ChatsState> _mapChatExpriedEvent(ChatExpiredEvent event) async* {
-    Map<String, Message> chatsMap = {};
-    state.chatsMap.forEach((userid, message) {
-      if (userid != event.userid) {
-        chatsMap.update(userid, (v) => v, ifAbsent: () => message);
-      }
-    });
+    ChatsState newState = state.clone();
+    newState.chatsMap.remove(event.userid);
 
     state.chatsSubscriptionMap[event.userid].cancel();
-    Map<String, StreamSubscription<MessageHistory>> subMap = {};
-    state.chatsSubscriptionMap.forEach((userid, sub) {
-      if (userid != event.userid) {
-        subMap.update(userid, (v) => v, ifAbsent: () => sub);
-      }
-    });
+    newState.chatsSubscriptionMap.remove(event.userid);
 
-    yield ChatsState(chatsMap, subMap, []);
+    yield newState;
   }
 
   Stream<ChatsState> _mapNewMessageEvent(NewMessageEvent event) async* {
-    Map<String, Message> chatsMap = {};
-    state.chatsMap.forEach((userid, message) {
-      chatsMap.update(userid, (v) => v, ifAbsent: () => message);
-    });
-    chatsMap.update(event.userid, (v) => v, ifAbsent: () => event.message);
+    ChatsState newState = state.clone();
+    newState.chatsMap
+        .update(event.userid, (v) => v, ifAbsent: () => event.history);
 
-    Map<String, StreamSubscription<MessageHistory>> subMap = {};
-    state.chatsSubscriptionMap.forEach((userid, sub) {
-      subMap.update(userid, (v) => v, ifAbsent: () => sub);
-    });
-    yield ChatsState(chatsMap, subMap, []);
+    yield newState;
   }
 
   Stream<ChatsState> _mapLoadChatPartnersUpdateEvent(
       ChatPartnersUpdateEvent event) async* {
-    print("chatsMap: " + state.chatsMap.toString());
-    print("subMap: " + state.chatsSubscriptionMap.toString());
-    print("event: " + event.toString());
     // Cancel Expired Chat Subscriptions
     state.chatsSubscriptionMap.forEach((userid, subscription) {
       if (!event.userids.contains(userid)) {
@@ -95,24 +77,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
   }
 
   Stream<ChatsState> _mapNewChatPartnerEvent(NewChatPartnerEvent event) async* {
-    Map<String, Message> chatsMap = {};
-    state.chatsMap.forEach((userid, message) {
-      chatsMap.update(userid, (v) => v, ifAbsent: () => message);
-    });
-
-    // Copy the current state's subscriptionMap
-    Map<String, StreamSubscription<MessageHistory>> subscriptionMap = {};
-    state.chatsSubscriptionMap.forEach((userid, subscription) {
-      subscriptionMap.update(userid, (v) => v,
-          ifAbsent: () => state.chatsSubscriptionMap[userid]);
-    });
+    ChatsState newState = state.clone();
     // Add the new chat partner
-    subscriptionMap.update(event.userid, (v) => v,
+    newState.chatsSubscriptionMap.update(event.userid, (v) => v,
         ifAbsent: () =>
             _chatRepository.getChatStream(u.id, event.userid).listen((history) {
-              add(NewMessageEvent(event.userid, history.messages.last));
+              add(NewMessageEvent(event.userid, history));
             }));
 
-    yield ChatsState(chatsMap, subscriptionMap, []);
+    yield newState;
   }
 }

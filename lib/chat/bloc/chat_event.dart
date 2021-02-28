@@ -13,7 +13,6 @@ abstract class ChatEvent extends Equatable {
 }
 
 class ChatPartnersUpdateEvent extends ChatEvent {
-
   final List<String> userids;
 
   const ChatPartnersUpdateEvent(this.userids);
@@ -23,11 +22,9 @@ class ChatPartnersUpdateEvent extends ChatEvent {
 
   @override
   String toString() => 'ChatPartnersUpdate { userids: $userids }';
-
 }
 
 class NewChatPartnerEvent extends ChatEvent {
-
   final String userid;
 
   const NewChatPartnerEvent(this.userid);
@@ -37,25 +34,22 @@ class NewChatPartnerEvent extends ChatEvent {
 
   @override
   String toString() => 'NewChatPartnerEvent { userid: $userid }';
-
 }
 
 class NewMessageEvent extends ChatEvent {
-
   final String userid;
-  final Message message;
+  final MessageHistory history;
 
-  const NewMessageEvent(this.userid, this.message);
-
-  @override
-  List<Object> get props => [userid, message];
+  const NewMessageEvent(this.userid, this.history);
 
   @override
-  String toString() => 'NewMessageEvent { userid: $userid, message: $message }';
+  List<Object> get props => [userid, history];
+
+  @override
+  String toString() => 'NewMessageEvent { userid: $userid, history: $history }';
 }
 
 class ChatExpiredEvent extends ChatEvent {
-
   final String userid;
 
   const ChatExpiredEvent(this.userid);
