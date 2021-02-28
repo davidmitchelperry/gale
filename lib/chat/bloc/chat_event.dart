@@ -60,3 +60,17 @@ class ChatExpiredEvent extends ChatEvent {
   @override
   String toString() => 'ChatExpiredEvent { userid: $userid }';
 }
+
+class SendMessageEvent extends ChatEvent {
+  final String userid;
+  final Message message;
+
+  const SendMessageEvent(this.userid, this.message);
+
+  @override
+  List<Object> get props => [userid, message];
+
+  @override
+  String toString() =>
+      'SendMessageEvent { userid: $userid, message: $message }';
+}

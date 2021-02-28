@@ -41,7 +41,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
       yield* _mapChatExpriedEvent(event);
     } else if (event is NewMessageEvent) {
       yield* _mapNewMessageEvent(event);
+    } else if (event is SendMessageEvent) {
+      yield* _mapSendMessageEvent(event);
     }
+  }
+
+  Stream<ChatsState> _mapSendMessageEvent(SendMessageEvent event) async* {
+    _chatRepository.sendMessage(u.id, event.userid, event.message);
+    //state.chatsMap[event.userid];
+    //add(NewMessageEvent(event.userid, history))
   }
 
   Stream<ChatsState> _mapChatExpriedEvent(ChatExpiredEvent event) async* {
@@ -56,9 +64,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
 
   Stream<ChatsState> _mapNewMessageEvent(NewMessageEvent event) async* {
     ChatsState newState = state.clone();
-    newState.chatsMap
-        .update(event.userid, (v) => v, ifAbsent: () => event.history);
-
+    newState.chatsMap.update(event.userid, (v) => event.history,
+        ifAbsent: () => event.history);
     yield newState;
   }
 

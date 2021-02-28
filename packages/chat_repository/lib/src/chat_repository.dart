@@ -4,12 +4,14 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:chat_repository/src/models/models.dart';
 
 abstract class ChatRepository {
+  Stream<Users> users(String userid);
 
- Stream<Users> users(String userid);
+  Stream<MessageHistory> getChatStream(String myUserId, String theirUserId);
 
- Stream<MessageHistory> getChatStream(String myUserId, String theirUserId);
+  Future<void> sendMessage(
+      String myUserId, String theirUserId, Message message);
 
- //Stream<Users>
+  //Stream<Users>
 
   //Future<void> createNewProfile(Profile profile, User userid);
 

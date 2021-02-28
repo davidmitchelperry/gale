@@ -6,11 +6,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class MessageEntity extends Equatable {
-
   final int id;
   final bool isLiked;
   final String sender;
-  final String time; // Would usually be type DateTime or Firebase Timestamp in production apps
+  final String
+      time; // Would usually be type DateTime or Firebase Timestamp in production apps
   final String text;
   final bool unread;
 
@@ -31,10 +31,19 @@ class MessageEntity extends Equatable {
     return 'MessageEntity { id: $id, sender: $sender, time: $time, text: $text, isLiked: $isLiked, unread: $unread  }';
   }
 
-  static MessageEntity fromSnapshot(DocumentSnapshot snap) {
+  Map<String, Object> toJson() {
+    return {
+      'id': id,
+      'sender': sender,
+      'time': time,
+      'text': text,
+      'isLiked': isLiked,
+      'unread': unread,
+    };
+  }
 
+  static MessageEntity fromSnapshot(DocumentSnapshot snap) {
     // `snap` is a snapshot for the collection, thus we must index it
-    // (like an array) and use the first message for testing purposes
     return MessageEntity(
       id: snap.data()['id'],
       sender: snap.data()['sender'],
@@ -44,5 +53,4 @@ class MessageEntity extends Equatable {
       unread: snap.data()['unread'],
     );
   }
-
 }

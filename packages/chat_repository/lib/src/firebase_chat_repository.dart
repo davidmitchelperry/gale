@@ -5,7 +5,6 @@ import 'package:chat_repository/chat_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseChatRepository implements ChatRepository {
-
   final _usersCollection = FirebaseFirestore.instance.collection('users');
   final _chatsCollection = FirebaseFirestore.instance.collection('chats');
 
@@ -27,10 +26,19 @@ class FirebaseChatRepository implements ChatRepository {
   @override
   Stream<MessageHistory> getChatStream(String myUserId, String theirUserId) {
     var chatId = _getChatId(myUserId, theirUserId);
-    Stream chatStream = _chatsCollection.doc(chatId).collection('messages').snapshots();
+    Stream chatStream =
+        _chatsCollection.doc(chatId).collection('messages').snapshots();
     return chatStream.map<MessageHistory>((snapshot) {
-      return MessageHistory.fromEntity(MessageHistoryEntity.fromSnapshot(snapshot));
+      return MessageHistory.fromEntity(
+          MessageHistoryEntity.fromSnapshot(snapshot));
     });
   }
 
+  @override
+  Future<void> sendMessage(
+      String myUserId, String theirUserId, Message message) {
+    var chatId = _getChatId(myUserId, theirUserId);
+    var messages = _chatsCollection.doc(chatId).collection('messages');
+    return messages.add(message.toEntity().toJson());
+  }
 }
