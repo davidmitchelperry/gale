@@ -48,8 +48,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
 
   Stream<ChatsState> _mapSendMessageEvent(SendMessageEvent event) async* {
     _chatRepository.sendMessage(u.id, event.userid, event.message);
-    //state.chatsMap[event.userid];
-    //add(NewMessageEvent(event.userid, history))
   }
 
   Stream<ChatsState> _mapChatExpriedEvent(ChatExpiredEvent event) async* {
