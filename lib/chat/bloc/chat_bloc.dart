@@ -60,7 +60,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
       }
     });
 
-    yield ChatsState(chatsMap: chatsMap, chatsSubscriptionMap: subMap);
+    yield ChatsState(chatsMap, subMap, []);
   }
 
   Stream<ChatsState> _mapNewMessageEvent(NewMessageEvent event) async* {
@@ -74,7 +74,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
     state.chatsSubscriptionMap.forEach((userid, sub) {
       subMap.update(userid, (v) => v, ifAbsent: () => sub);
     });
-    yield ChatsState(chatsMap: chatsMap, chatsSubscriptionMap: subMap);
+    yield ChatsState(chatsMap, subMap, []);
   }
 
   Stream<ChatsState> _mapLoadChatPartnersUpdateEvent(
@@ -113,6 +113,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
               add(NewMessageEvent(event.userid, history.messages.last));
             }));
 
-    yield ChatsState(chatsMap: chatsMap, chatsSubscriptionMap: subscriptionMap);
+    yield ChatsState(chatsMap, subscriptionMap, []);
   }
 }
