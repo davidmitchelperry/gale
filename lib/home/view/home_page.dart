@@ -10,7 +10,6 @@ import 'package:gale/todos/todos.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 class HomePage extends StatelessWidget {
-
   //final _navigatorKey = GlobalKey<NavigatorState>();
   //NavigatorState get _navigator => _navigatorKey.currentState;
 
@@ -48,19 +47,18 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 4.0),
             Text("uid: " + user.id),
             RaisedButton(
-              key: const Key('RB_gotoProfile'),
-              child: const Text('Goto Profile'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: const Color(0xFFFFD600),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  ProfilePage.route(),
-                );
-              }
-            ),
+                key: const Key('RB_gotoProfile'),
+                child: const Text('Goto Profile'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                color: const Color(0xFFFFD600),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    ProfilePage.route(),
+                  );
+                }),
             RaisedButton(
                 key: const Key('RB_gotoChat'),
                 child: const Text('Goto Chat'),
@@ -71,10 +69,9 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    ChatsPage.route(),
+                    ChatNavigatorPage.route(),
                   );
-                }
-            ),
+                }),
           ],
         ),
       ),

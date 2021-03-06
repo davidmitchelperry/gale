@@ -6,7 +6,6 @@ import 'package:gale/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatPage extends StatelessWidget {
-
   final String userid;
 
   ChatPage({this.userid});
@@ -17,11 +16,8 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
-
-    //chatsMap[user.id]
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,

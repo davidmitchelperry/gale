@@ -10,27 +10,22 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseProfileRepository implements ProfileRepository {
-
   final profileCollection = FirebaseFirestore.instance.collection("profiles");
 
   @override
   Future<void> createNewProfile(Profile profile, User user) {
-    return profileCollection.doc(user.id).set(
-      {
-        "firstName" : profile.firstName,
-        "lastName" : profile.lastName,
-      }
-    );
+    return profileCollection.doc(user.id).set({
+      "firstName": profile.firstName,
+      "lastName": profile.lastName,
+    });
   }
 
   @override
   Future<void> updateProfile(Profile profile, User user) {
-    return profileCollection.doc(user.id).set(
-        {
-          "firstName" : profile.firstName,
-          "lastName" : profile.lastName,
-        }
-    );
+    return profileCollection.doc(user.id).set({
+      "firstName": profile.firstName,
+      "lastName": profile.lastName,
+    });
   }
 
   @override
@@ -39,23 +34,4 @@ class FirebaseProfileRepository implements ProfileRepository {
     var pe = ProfileEntity.fromSnapshot(snapshot);
     return Profile.fromEntity(pe);
   }
-
-//@override
-  //Future<void> deleteTodo(Profile todo) async {
-  //  return todoCollection.doc(todo.id).delete();
-  //}
-
-  //@override
-  //Stream<List<Profile>> todos() {
-  //  return todoCollection.snapshots().map((snapshot) {
-  //    return snapshot.docs
-  //        .map((doc) => Profile.fromEntity(ProfileEntity.fromSnapshot(doc)))
-  //        .toList();
-  //  });
-  //}
-
-  //@override
-  //Future<void> updateTodo(Profile update) {
-  //  return todoCollection.doc(update.id).update(update.toEntity().toDocument());
-  //}
 }
