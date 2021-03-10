@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chat_repository/chat_repository.dart';
 
 class RecentChatListItem extends StatelessWidget {
-  const RecentChatListItem({Key key, String userid, recentMessage})
-      : userid = userid,
+  const RecentChatListItem({Key key, String theirId, recentMessage})
+      : theirId = theirId,
         recentMessage = recentMessage,
         super(key: key);
 
-  final String userid;
+  final String theirId;
   final Message recentMessage;
 
   @override
@@ -18,7 +18,7 @@ class RecentChatListItem extends StatelessWidget {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatPage(userid: userid),
+            builder: (context) => ChatPage(theirId: theirId),
           )),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
@@ -64,7 +64,7 @@ class RecentChatListItem extends StatelessWidget {
             Column(
               children: <Widget>[
                 Text(
-                  recentMessage.time,
+                  recentMessage.time ?? "",
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 15.0,

@@ -6,9 +6,9 @@ import 'package:gale/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatPage extends StatelessWidget {
-  final String userid;
+  final String theirId;
 
-  ChatPage({this.userid});
+  ChatPage({this.theirId});
 
   //Route route() {
   //  return MaterialPageRoute<void>(builder: (_) => ChatPage());
@@ -17,7 +17,8 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
+    final chatsMap =
+        context.select((ChatBloc bloc) => bloc.state.messageHistoryMap);
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
@@ -61,10 +62,10 @@ class ChatPage extends StatelessWidget {
       //            child: ListView.builder(
       //              reverse: true,
       //              padding: EdgeInsets.only(top: 15.0),
-      //              itemCount: chatsMap[userid].messages.length,
+      //              itemCount: chatsMap[theirId].messages.length,
       //              itemBuilder: (BuildContext context, int index) {
-      //                final Message message = chatsMap[userid].messages[index];
-      //                final bool isMe = userid == user.id;
+      //                final Message message = chatsMap[theirId].messages[index];
+      //                final bool isMe = theirId == user.id;
       //                return MessageListItem(message, isMe);
       //              },
       //            ),

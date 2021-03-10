@@ -7,7 +7,7 @@ import 'package:gale/chat/chat.dart';
 import 'package:chat_repository/chat_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 
-class ChatBloc extends Bloc<ChatEvent, ChatsState> {
+class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository _chatRepository;
   final AuthenticationRepository _authenticationRepository;
 
@@ -22,7 +22,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
   })  : assert(chatRepository != null),
         _chatRepository = chatRepository,
         _authenticationRepository = authenticationRepository,
-        super(ChatsState({}, {})) {
+        super(ChatState({}, {})) {
     authenticationRepository.user.listen((user) {
       u = user;
       _chatRepository.users(user.id).listen((me) {
@@ -32,7 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
   }
 
   @override
-  Stream<ChatsState> mapEventToState(ChatEvent event) async* {
+  Stream<ChatState> mapEventToState(ChatEvent event) async* {
     if (event is ChatPartnersUpdateEvent) {
       yield* _mapLoadChatPartnersUpdateEvent(event);
     } else if (event is NewChatPartnerEvent) {
@@ -46,13 +46,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
     }
   }
 
-  Stream<ChatsState> _mapSendMessageEvent(SendMessageEvent event) async* {
+  Stream<ChatState> _mapSendMessageEvent(SendMessageEvent event) async* {
     _chatRepository.sendMessage(u.id, event.userid, event.message);
   }
 
-  Stream<ChatsState> _mapChatExpriedEvent(ChatExpiredEvent event) async* {
-    ChatsState newState = state.clone();
-    newState.chatsMap.remove(event.userid);
+  Stream<ChatState> _mapChatExpriedEvent(ChatExpiredEvent event) async* {
+    ChatState newState = state.clone();
+    newState.messageHistoryMap.remove(event.userid);
 
     state.chatsSubscriptionMap[event.userid].cancel();
     newState.chatsSubscriptionMap.remove(event.userid);
@@ -60,14 +60,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
     yield newState;
   }
 
-  Stream<ChatsState> _mapNewMessageEvent(NewMessageEvent event) async* {
-    ChatsState newState = state.clone();
-    newState.chatsMap.update(event.userid, (v) => event.history,
+  Stream<ChatState> _mapNewMessageEvent(NewMessageEvent event) async* {
+    ChatState newState = state.clone();
+    newState.messageHistoryMap.update(event.userid, (v) => event.history,
         ifAbsent: () => event.history);
     yield newState;
   }
 
-  Stream<ChatsState> _mapLoadChatPartnersUpdateEvent(
+  Stream<ChatState> _mapLoadChatPartnersUpdateEvent(
       ChatPartnersUpdateEvent event) async* {
     // Cancel Expired Chat Subscriptions
     state.chatsSubscriptionMap.forEach((userid, subscription) {
@@ -81,8 +81,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatsState> {
     });
   }
 
-  Stream<ChatsState> _mapNewChatPartnerEvent(NewChatPartnerEvent event) async* {
-    ChatsState newState = state.clone();
+  Stream<ChatState> _mapNewChatPartnerEvent(NewChatPartnerEvent event) async* {
+    ChatState newState = state.clone();
     // Add the new chat partner
     newState.chatsSubscriptionMap.update(event.userid, (v) => v,
         ifAbsent: () =>

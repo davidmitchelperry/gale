@@ -3,33 +3,30 @@ import 'package:chat_repository/chat_repository.dart';
 
 @immutable
 class MessageHistory {
-
   final List<Message> messages;
-  final String firstName;
-  final String lastName;
+  final String partnerId;
 
   MessageHistory({
     this.messages,
-    this.firstName,
-    this.lastName,
+    this.partnerId,
   });
 
-  MessageHistory copyWith({List<Message> messages}) {
+  MessageHistory copyWith({List<Message> messages, partnerId}) {
     return MessageHistory(
       messages: messages ?? this.messages,
+      partnerId: partnerId ?? this.partnerId,
     );
   }
 
   @override
-  int get hashCode =>
-      messages.hashCode;
+  int get hashCode => messages.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Message &&
-              runtimeType == other.runtimeType &&
-              messages == messages;
+      other is Message &&
+          runtimeType == other.runtimeType &&
+          messages == messages;
 
   @override
   String toString() {

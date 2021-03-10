@@ -13,7 +13,8 @@ class ChatNavigatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
+    final chatsMap =
+        context.select((ChatBloc bloc) => bloc.state.messageHistoryMap);
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,

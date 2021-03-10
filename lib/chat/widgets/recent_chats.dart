@@ -8,7 +8,8 @@ class RecentChats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get information you need from BLoCs
-    final chatsMap = context.select((ChatBloc bloc) => bloc.state.chatsMap);
+    final messageHistoryMap =
+        context.select((ChatBloc bloc) => bloc.state.messageHistoryMap);
 
     return Expanded(
       child: Container(
@@ -17,12 +18,13 @@ class RecentChats extends StatelessWidget {
         ),
         child: ClipRRect(
           child: ListView.builder(
-            itemCount: chatsMap.length,
+            itemCount: messageHistoryMap.length,
             itemBuilder: (BuildContext context, int index) {
-              final String userid = chatsMap.keys.toList()[index];
-              final Message recentMessage = chatsMap[userid].messages.last;
+              final String theirId = messageHistoryMap.keys.toList()[index];
+              final Message recentMessage =
+                  messageHistoryMap[theirId].messages.last;
               return RecentChatListItem(
-                  userid: userid, recentMessage: recentMessage);
+                  theirId: theirId, recentMessage: recentMessage);
             },
           ),
         ),

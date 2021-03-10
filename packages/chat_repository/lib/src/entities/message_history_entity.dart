@@ -6,9 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:chat_repository/chat_repository.dart';
 
-
 class MessageHistoryEntity extends Equatable {
-
   final List<MessageEntity> messages;
 
   const MessageHistoryEntity({
@@ -24,20 +22,17 @@ class MessageHistoryEntity extends Equatable {
   }
 
   static MessageHistoryEntity fromSnapshot(QuerySnapshot snap) {
-
     List<MessageEntity> history = [];
     for (final msg in snap.docs) {
-      history.add(
-          MessageEntity(
-            id: msg.data()['id'],
-            sender: msg.data()['sender'],
-            time: msg.data()['time'],
-            text: msg.data()['text'],
-            isLiked: msg.data()['isLiked'],
-            unread: msg.data()['unread'],
-          ));
+      history.add(MessageEntity(
+        id: msg.data()['id'],
+        sender: msg.data()['sender'],
+        time: msg.data()['time'],
+        text: msg.data()['text'],
+        isLiked: msg.data()['isLiked'],
+        unread: msg.data()['unread'],
+      ));
     }
     return MessageHistoryEntity(messages: history);
   }
-
 }
