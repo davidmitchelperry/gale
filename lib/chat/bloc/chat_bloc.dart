@@ -6,9 +6,11 @@ import 'package:meta/meta.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:chat_repository/chat_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:profile_repository/profile_repository.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository _chatRepository;
+  final ProfileRepository _profileRepository;
   final AuthenticationRepository _authenticationRepository;
 
   StreamSubscription _chatIdsSubscription;
@@ -19,10 +21,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc({
     @required ChatRepository chatRepository,
     @required AuthenticationRepository authenticationRepository,
+    @required ProfileRepository profileRepository,
   })  : assert(chatRepository != null),
         _chatRepository = chatRepository,
         _authenticationRepository = authenticationRepository,
-        super(ChatState({}, {})) {
+        _profileRepository = profileRepository,
+        super(ChatState({}, {}, {})) {
+    // TODO: These two user fields are gross
     authenticationRepository.user.listen((user) {
       u = user;
       _chatRepository.users(user.id).listen((me) {
@@ -43,7 +48,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield* _mapNewMessageEvent(event);
     } else if (event is SendMessageEvent) {
       yield* _mapSendMessageEvent(event);
+    } else if (event is LoadPartnersProfileEvent) {
+      yield* _mapLoadPartnersProfileEvent(event);
     }
+  }
+
+  Stream<ChatState> _mapLoadPartnersProfileEvent(
+      LoadPartnersProfileEvent event) async* {
+    ChatState newState = state.clone();
+    Profile p = await _profileRepository.readProfile(event.theirId);
+    newState.profileMap.update(event.theirId, (v) => p, ifAbsent: () => p);
+    //_profileRepository.readProfile(event.theirId).then((Profile profile) {
+    //  print("PROFILE: " + profile.toString());
+    //});
+    yield newState;
   }
 
   Stream<ChatState> _mapSendMessageEvent(SendMessageEvent event) async* {
@@ -84,12 +102,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Stream<ChatState> _mapNewChatPartnerEvent(NewChatPartnerEvent event) async* {
     ChatState newState = state.clone();
     // Add the new chat partner
-    newState.chatsSubscriptionMap.update(event.userid, (v) => v,
-        ifAbsent: () =>
-            _chatRepository.getChatStream(u.id, event.userid).listen((history) {
-              add(NewMessageEvent(event.userid, history));
-            }));
-
+    newState.chatsSubscriptionMap.update(event.userid, (v) => v, ifAbsent: () {
+      add(LoadPartnersProfileEvent(event.userid));
+      _chatRepository.getChatStream(u.id, event.userid).listen((history) {
+        add(NewMessageEvent(event.userid, history));
+      });
+    });
     yield newState;
   }
 }

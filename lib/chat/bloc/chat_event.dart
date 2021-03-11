@@ -24,6 +24,18 @@ class ChatPartnersUpdateEvent extends ChatEvent {
   String toString() => 'ChatPartnersUpdate { userids: $userids }';
 }
 
+class LoadPartnersProfileEvent extends ChatEvent {
+  final String theirId;
+
+  const LoadPartnersProfileEvent(this.theirId);
+
+  @override
+  List<Object> get props => [theirId];
+
+  @override
+  String toString() => 'ChatPartnersUpdate { theirId: $theirId }';
+}
+
 class NewChatPartnerEvent extends ChatEvent {
   final String userid;
 

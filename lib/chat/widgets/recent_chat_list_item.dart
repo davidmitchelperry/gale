@@ -14,6 +14,11 @@ class RecentChatListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileMap = context.select((ChatBloc bloc) => bloc.state.profileMap);
+    String theirName = "";
+    if (profileMap.containsKey(theirId)) {
+      theirName = profileMap[theirId].firstName;
+    }
     return GestureDetector(
       onTap: () => Navigator.push(
           context,
@@ -38,13 +43,19 @@ class RecentChatListItem extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      recentMessage.sender,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                    BlocBuilder<ChatBloc, ChatState>(builder: (context, state) {
+                      String name = "";
+                      if (state.profileMap.containsKey(theirId)) {
+                        name = state.profileMap[theirId].firstName;
+                      }
+                      return Text(
+                        name,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      );
+                    }),
                     SizedBox(height: 5.0),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.45,

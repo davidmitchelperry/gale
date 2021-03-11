@@ -14,7 +14,6 @@ import 'package:chat_repository/chat_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 
 class App extends StatelessWidget {
-
   const App({
     Key key,
     @required this.authenticationRepository,
@@ -37,10 +36,10 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(
-            value: authenticationRepository,
+          value: authenticationRepository,
         ),
         RepositoryProvider.value(
-            value: todosRepository,
+          value: todosRepository,
         ),
         RepositoryProvider.value(
           value: profileRepository,
@@ -49,33 +48,33 @@ class App extends StatelessWidget {
           value: chatRepository,
         ),
       ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<AuthenticationBloc> (
-              create: (_) => AuthenticationBloc(
-                authenticationRepository: authenticationRepository,
-              ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+            create: (_) => AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
             ),
-            BlocProvider<TodosBloc> (
-              create: (_) => TodosBloc(
-                todosRepository: todosRepository,
-              ),
+          ),
+          BlocProvider<TodosBloc>(
+            create: (_) => TodosBloc(
+              todosRepository: todosRepository,
             ),
-            BlocProvider<ProfileBloc> (
-              create: (_) => ProfileBloc(
-                profileRepository: profileRepository,
-              ),
+          ),
+          BlocProvider<ProfileBloc>(
+            create: (_) => ProfileBloc(
+              profileRepository: profileRepository,
             ),
-            BlocProvider<ChatBloc> (
+          ),
+          BlocProvider<ChatBloc>(
               create: (_) => ChatBloc(
-                chatRepository: chatRepository,
-                authenticationRepository: authenticationRepository,
-              )
-            )
-          ],
-          child: AppView(),
-          //child: Text("test"),
-        ),
+                    chatRepository: chatRepository,
+                    authenticationRepository: authenticationRepository,
+                    profileRepository: profileRepository,
+                  ))
+        ],
+        child: AppView(),
+        //child: Text("test"),
+      ),
     );
   }
 }
@@ -86,7 +85,6 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-
   final _navigatorKey = GlobalKey<NavigatorState>();
   NavigatorState get _navigator => _navigatorKey.currentState;
 
