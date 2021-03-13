@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final authInfo =
         context.select((AuthenticationBloc bloc) => bloc.state.user);
-    //final test_text = context.select((ProfileBloc bloc) => bloc.state.profile
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -36,61 +36,43 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Avatar(photo: authInfo.photo),
-            const SizedBox(height: 4.0),
-            Text(authInfo.email, style: textTheme.headline6),
-            const SizedBox(height: 4.0),
-            Text(authInfo.name ?? '', style: textTheme.headline5),
-            SizedBox(height: 4.0),
-            Text("uid: " + authInfo.id),
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
                 return Text(
-                  state.userid,
+                  "STATE: " + state.toString(),
                   key: const Key('T_currentProfile'),
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                 );
               },
             ),
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
-                if (state is ProfileLoaded) {
-                  return CachedNetworkImage(
-                      imageUrl: (state as ProfileLoaded).profile.imagesUrl);
+                var newWidget;
+                if (state is ProfileInit) {
+                  newWidget = CircularProgressIndicator();
+                } else if (state is ProfileLoaded) {
+                  newWidget = CachedNetworkImage(
+                    imageUrl: state.profile.imagesUrl,
+                    width: 100,
+                    height: 100,
+                  );
                 } else if (state is ProfileLoading) {
-                  return Text("Profile Info Loading!!!");
+                  newWidget = CircularProgressIndicator();
                 }
+                return newWidget;
               },
             ),
             RaisedButton(
-              key: const Key('RB_createProfile'),
-              child: const Text('createProfile'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: const Color(0xFFFFD600),
-              onPressed: () => context.read<ProfileBloc>().add(
-                  CreateProfile(Profile("David", "Perry", "boom"), authInfo)),
-            ),
-            RaisedButton(
-              key: const Key('RB_updateProfile'),
-              child: const Text('updateProfile'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: const Color(0xFFFFD600),
-              onPressed: () => context.read<ProfileBloc>().add(
-                  UpdateProfile(Profile("John", "Smith", "rawr"), authInfo)),
-            ),
-            RaisedButton(
-              key: const Key('RB_readProfile'),
-              child: const Text('readProfile'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: const Color(0xFFFFD600),
+              child: const Text('Load userid1'),
+              color: Colors.blue,
               onPressed: () =>
-                  context.read<ProfileBloc>().add(ReadProfile('userid1')),
+                  context.read<ProfileBloc>().add(LoadProfile('userid1')),
+            ),
+            RaisedButton(
+              child: const Text('Load userid2'),
+              color: Colors.blue,
+              onPressed: () =>
+                  context.read<ProfileBloc>().add(LoadProfile('userid2')),
             ),
           ],
         ),

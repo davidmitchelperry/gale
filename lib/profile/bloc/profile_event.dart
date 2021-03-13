@@ -10,8 +10,6 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadProfile extends ProfileEvent {}
-
 class CreateProfile extends ProfileEvent {
   final Profile profile;
   final AuthInfo user;
@@ -40,10 +38,10 @@ class UpdateProfile extends ProfileEvent {
       'UpdateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
 }
 
-class ReadProfile extends ProfileEvent {
+class LoadProfile extends ProfileEvent {
   final String userid;
 
-  const ReadProfile(this.userid);
+  const LoadProfile(this.userid);
 
   @override
   List<Object> get props => [userid];
@@ -52,11 +50,11 @@ class ReadProfile extends ProfileEvent {
   String toString() => 'ReadProfile { userid: $userid }';
 }
 
-class ReadProfileComplete extends ProfileEvent {
+class LoadProfileComplete extends ProfileEvent {
   final String userid;
   final Profile profile;
 
-  const ReadProfileComplete(this.userid, this.profile);
+  const LoadProfileComplete(this.userid, this.profile);
 
   @override
   List<Object> get props => [userid, profile];
