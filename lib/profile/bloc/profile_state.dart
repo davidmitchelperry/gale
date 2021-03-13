@@ -2,38 +2,32 @@ import 'package:equatable/equatable.dart';
 import 'package:profile_repository/profile_repository.dart';
 
 abstract class ProfileState extends Equatable {
+  final String userid;
 
-  //final Future<Profile> profile;
-  final String test_text;
-
-  const ProfileState(this.test_text);
+  const ProfileState(this.userid);
 
   @override
-  List<Object> get props => [test_text];
+  List<Object> get props => [userid];
 }
 
 class ProfileLoading extends ProfileState {
-
-  const ProfileLoading(String test_text) : super(test_text);
-
-  @override
-  List<Object> get props => [test_text];
+  const ProfileLoading(String userid) : super(userid);
 
   @override
-  String toString() => 'ProfileLoading { test_text: $test_text }';
+  List<Object> get props => [userid];
+
+  @override
+  String toString() => 'ProfileLoading { userid: $userid }';
 }
 
 class ProfileLoaded extends ProfileState {
+  final Profile profile;
 
-  const ProfileLoaded(String test_text) : super(test_text);
-
-  @override
-  List<Object> get props => [test_text];
+  const ProfileLoaded(String userid, this.profile) : super(userid);
 
   @override
-  String toString() => 'ProfileLoaded {test_text: $test_text }';
+  List<Object> get props => [profile];
+
+  @override
+  String toString() => 'ProfileLoaded {profile: $profile }';
 }
-
-//class ProfileCouldNotLoad extends ProfileState {
-//  const ProfileCouldNotLoad()
-//}

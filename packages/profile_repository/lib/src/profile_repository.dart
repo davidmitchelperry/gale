@@ -7,12 +7,13 @@ import 'package:profile_repository/profile_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 
 abstract class ProfileRepository {
+  Future<void> createNewProfile(Profile profile, AuthInfo userid);
 
-  Future<void> createNewProfile(Profile profile, User userid);
-
-  Future<void> updateProfile(Profile profile, User userid);
+  Future<void> updateProfile(Profile profile, AuthInfo userid);
 
   Future<Profile> readProfile(String userid);
+
+  //Future<CachedN>
 
   //Stream<List<Profile>> friendsList(); Just a thought... Maybe make a friends list repo
 }

@@ -10,14 +10,11 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadProfile extends ProfileEvent {
-
-}
+class LoadProfile extends ProfileEvent {}
 
 class CreateProfile extends ProfileEvent {
-
   final Profile profile;
-  final User user;
+  final AuthInfo user;
 
   const CreateProfile(this.profile, this.user);
 
@@ -25,13 +22,13 @@ class CreateProfile extends ProfileEvent {
   List<Object> get props => [profile];
 
   @override
-  String toString() => 'CreateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
+  String toString() =>
+      'CreateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
 }
 
 class UpdateProfile extends ProfileEvent {
-
   final Profile profile;
-  final User user;
+  final AuthInfo user;
 
   const UpdateProfile(this.profile, this.user);
 
@@ -39,7 +36,8 @@ class UpdateProfile extends ProfileEvent {
   List<Object> get props => [profile];
 
   @override
-  String toString() => 'UpdateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
+  String toString() =>
+      'UpdateProfile { firstName: $profile.firstName, lastName: $profile.lastName }';
 }
 
 class ReadProfile extends ProfileEvent {
@@ -54,18 +52,19 @@ class ReadProfile extends ProfileEvent {
   String toString() => 'ReadProfile { userid: $userid }';
 }
 
-class LoadProfileComplete extends ProfileEvent {
+class ReadProfileComplete extends ProfileEvent {
   final String userid;
+  final Profile profile;
 
-  const LoadProfileComplete(this.userid);
-
-  @override
-  List<Object> get props => [userid];
+  const ReadProfileComplete(this.userid, this.profile);
 
   @override
-  String toString() => 'ProfileLoadComplte { userid: $userid }';
+  List<Object> get props => [userid, profile];
+
+  @override
+  String toString() =>
+      'ReadProfileComplete { userid: $userid, profile: $profile }';
 }
-
 
 //class DeleteProfile extends ProfileEvent {
 //  final  todo;
@@ -78,4 +77,3 @@ class LoadProfileComplete extends ProfileEvent {
 //  @override
 //  String toString() => 'DeleteTodo { todo: $todo }';
 //}
-

@@ -6,45 +6,46 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class ProfileEntity extends Equatable {
-
   final String firstName;
   final String lastName;
+  final String imagesUrl;
 
-  const ProfileEntity(this.firstName, this.lastName);
+  const ProfileEntity(this.firstName, this.lastName, this.imagesUrl);
 
   Map<String, Object> toJson() {
     return {
       'firstName': firstName,
       'lastName': lastName,
+      'imagesUrl': imagesUrl,
     };
   }
 
   @override
-  List<Object> get props => [firstName, lastName];
+  List<Object> get props => [firstName, lastName, imagesUrl];
 
   @override
   String toString() {
-    return 'ProfileEntity { firstName: $firstName, lastName: $lastName }';
+    return 'ProfileEntity { firstName: $firstName, lastName: $lastName, imagesUrl: $imagesUrl }';
   }
 
   static ProfileEntity fromJson(Map<String, Object> json) {
     return ProfileEntity(
       json['firstName'] as String,
       json['firstName'] as String,
+      json['imagesUrl'] as String,
     );
   }
 
   static ProfileEntity fromSnapshot(DocumentSnapshot snap) {
-    return ProfileEntity(
-      snap.data()['firstName'],
-      snap.data()['lastName'],
-    );
+    return ProfileEntity(snap.data()['firstName'], snap.data()['lastName'],
+        snap.data()['imagesUrl']);
   }
 
   Map<String, Object> toDocument() {
     return {
       'firstName': firstName,
       'lastName': lastName,
+      'profileUrl': imagesUrl,
     };
   }
 }

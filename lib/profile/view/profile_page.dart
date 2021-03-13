@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
@@ -7,7 +8,6 @@ import 'package:gale/profile/profile.dart';
 import 'package:profile_repository/profile_repository.dart';
 
 class ProfilePage extends StatelessWidget {
-
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => ProfilePage());
   }
@@ -15,7 +15,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
+    final authInfo =
+        context.select((AuthenticationBloc bloc) => bloc.state.user);
     //final test_text = context.select((ProfileBloc bloc) => bloc.state.profile
     return Scaffold(
       appBar: AppBar(
@@ -35,20 +36,30 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Avatar(photo: user.photo),
+            Avatar(photo: authInfo.photo),
             const SizedBox(height: 4.0),
-            Text(user.email, style: textTheme.headline6),
+            Text(authInfo.email, style: textTheme.headline6),
             const SizedBox(height: 4.0),
-            Text(user.name ?? '', style: textTheme.headline5),
+            Text(authInfo.name ?? '', style: textTheme.headline5),
             SizedBox(height: 4.0),
-            Text("uid: " + user.id),
+            Text("uid: " + authInfo.id),
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
                 return Text(
-                  state.test_text,
+                  state.userid,
                   key: const Key('T_currentProfile'),
                   textAlign: TextAlign.center,
                 );
+              },
+            ),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileLoaded) {
+                  return CachedNetworkImage(
+                      imageUrl: (state as ProfileLoaded).profile.imagesUrl);
+                } else if (state is ProfileLoading) {
+                  return Text("Profile Info Loading!!!");
+                }
               },
             ),
             RaisedButton(
@@ -58,9 +69,8 @@ class ProfilePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: const Color(0xFFFFD600),
-              onPressed: () => context
-                  .read<ProfileBloc>()
-                  .add(CreateProfile(Profile("David", "Perry"), user)),
+              onPressed: () => context.read<ProfileBloc>().add(
+                  CreateProfile(Profile("David", "Perry", "boom"), authInfo)),
             ),
             RaisedButton(
               key: const Key('RB_updateProfile'),
@@ -69,9 +79,8 @@ class ProfilePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: const Color(0xFFFFD600),
-              onPressed: () => context
-                  .read<ProfileBloc>()
-                  .add(UpdateProfile(Profile("John", "Smith"), user)),
+              onPressed: () => context.read<ProfileBloc>().add(
+                  UpdateProfile(Profile("John", "Smith", "rawr"), authInfo)),
             ),
             RaisedButton(
               key: const Key('RB_readProfile'),
@@ -80,9 +89,8 @@ class ProfilePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: const Color(0xFFFFD600),
-              onPressed: () => context
-                  .read<ProfileBloc>()
-                  .add(ReadProfile('userid1')),
+              onPressed: () =>
+                  context.read<ProfileBloc>().add(ReadProfile('userid1')),
             ),
           ],
         ),

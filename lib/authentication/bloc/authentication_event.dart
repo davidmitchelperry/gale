@@ -1,7 +1,6 @@
 part of 'authentication_bloc.dart';
 
 abstract class AuthenticationEvent extends Equatable {
-
   const AuthenticationEvent();
 
   @override
@@ -9,10 +8,9 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class AuthenticationUserChanged extends AuthenticationEvent {
-
   const AuthenticationUserChanged(this.user);
 
-  final User user;
+  final AuthInfo user;
 
   @override
   List<Object> get props => [user];

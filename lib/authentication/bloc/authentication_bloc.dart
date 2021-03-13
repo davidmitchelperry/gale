@@ -17,13 +17,13 @@ class AuthenticationBloc
   })  : assert(authenticationRepository != null),
         _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
-          _userSubscription = _authenticationRepository.user.listen(
-            (user) => add(AuthenticationUserChanged(user)),
-          );
-        }
+    _userSubscription = _authenticationRepository.user.listen(
+      (user) => add(AuthenticationUserChanged(user)),
+    );
+  }
 
   final AuthenticationRepository _authenticationRepository;
-  StreamSubscription<User> _userSubscription;
+  StreamSubscription<AuthInfo> _userSubscription;
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -45,7 +45,7 @@ class AuthenticationBloc
   AuthenticationState _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
   ) {
-    return event.user != User.empty
+    return event.user != AuthInfo.empty
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
   }

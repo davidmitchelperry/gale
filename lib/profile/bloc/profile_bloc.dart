@@ -14,22 +14,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     @required ProfileRepository profileRepository,
     @required AuthenticationRepository authenticationRepository,
-  }) : assert(profileRepository != null),
+  })  : assert(profileRepository != null),
         _profileRepository = profileRepository,
         //_authenticationRepository = authenticationRepository,
-        super(ProfileLoaded("Initial Profile Loaded"));
+        super(ProfileLoaded("init", Profile("", "", "")));
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LoadProfile) {
       //yield* _mapLoadProfileToState();
     } else if (event is CreateProfile) {
-     yield* _mapCreateProfileToState(event);
+      yield* _mapCreateProfileToState(event);
     } else if (event is UpdateProfile) {
       yield* _mapUpdateProfileToState(event);
     } else if (event is ReadProfile) {
       yield* _mapReadProfileToState(event);
-    } else if (event is LoadProfileComplete) {
+    } else if (event is ReadProfileComplete) {
       yield* _mapLoadProfileCompleteToState(event);
     }
   }
@@ -46,15 +46,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield ProfileLoading('userid: ${event.userid}');
     _profileRepository.readProfile(event.userid).then((Profile profile) {
       //yield ProfileLoaded(profile.firstName);
-      add(LoadProfileComplete(profile.firstName));
-    },
-    onError: (e) {
-
-    });
+      add(ReadProfileComplete(event.userid, profile));
+    }, onError: (e) {});
   }
 
-  Stream<ProfileState> _mapLoadProfileCompleteToState(LoadProfileComplete event) async* {
-    yield ProfileLoaded(event.userid);
+  Stream<ProfileState> _mapLoadProfileCompleteToState(
+      ReadProfileComplete event) async* {
+    yield ProfileLoaded(event.userid, event.profile);
+    //yield ProfileLoaded(event.userid);
   }
 
   //Stream<TodosState> _mapUpdateTodoToState(UpdateTodo event) async* {

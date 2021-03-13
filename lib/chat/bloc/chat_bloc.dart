@@ -16,7 +16,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   StreamSubscription _chatIdsSubscription;
   List<StreamSubscription> _chatSubscriptions = [];
 
-  User u;
+  AuthInfo u;
 
   ChatBloc({
     @required ChatRepository chatRepository,
