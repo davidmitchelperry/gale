@@ -12,6 +12,7 @@ import 'entities/entities.dart';
 
 class FirebaseProfileRepository implements ProfileRepository {
   final profileCollection = FirebaseFirestore.instance.collection("profiles");
+  final storage = FirebaseStorage.instance;
 
   @override
   Future<void> createNewProfile(Profile profile, AuthInfo authInfo) {
@@ -33,17 +34,25 @@ class FirebaseProfileRepository implements ProfileRepository {
   Future<Profile> readProfile(String userid) async {
     var snapshot = await profileCollection.doc(userid).get();
     var pe = ProfileEntity.fromSnapshot(snapshot);
-    return Profile.fromEntity(pe);
+    Profile result = Profile.fromEntity(pe);
+    List<String> urls = await _getImageUrls(userid);
+    urls.forEach((url) {
+      result.imageUrls.add(url);
+    });
+    return result;
   }
 
   Future<List<String>> _getImageUrls(String userid) async {
     List<String> result = [];
-    //List<
-
+    ListResult imageRefs = await storage
+        .ref()
+        .child('profiles')
+        .child(userid)
+        .child('images')
+        .listAll();
+    for (final ref in imageRefs.items) {
+      result.add(await ref.getDownloadURL());
+    }
+    return result;
   }
-
-  //@override
-  //Future<String> getProfileImageUrl(String userid) async {
-  //  String profileImageUrl = await FirebaseStorage.instance.ref('profiles/userid1/images')
-  //}
 }
