@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gale/app.dart';
 import 'package:gale/simple_bloc_observer.dart';
-import 'package:todos_repository/todos_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 
 void main() async {
@@ -17,7 +16,6 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
   runApp(App(
       authenticationRepository: AuthenticationRepository(),
-      todosRepository: FirebaseTodosRepository(),
       profileRepository: FirebaseProfileRepository(),
       chatRepository: FirebaseChatRepository(),
   ));

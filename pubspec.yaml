@@ -35,8 +35,6 @@ dependencies:
 
   authentication_repository:
     path: packages/authentication_repository
-  todos_repository:
-    path: packages/todos_repository
   profile_repository:
     path: packages/profile_repository
   chat_repository:

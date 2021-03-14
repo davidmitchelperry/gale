@@ -45,45 +45,5 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   //  _profileRepository.updateProfile(event.profile, event.user);
   //}
 
-//Stream<TodosState> _mapUpdateTodoToState(UpdateTodo event) async* {
-  //  _todosRepository.updateTodo(event.updatedTodo);
-  //}
 
-  //Stream<TodosState> _mapDeleteTodoToState(DeleteTodo event) async* {
-  //  _todosRepository.deleteTodo(event.todo);
-  //}
-
-  //Stream<TodosState> _mapToggleAllToState() async* {
-  //  final currentState = state;
-  //  if (currentState is TodosLoaded) {
-  //    final allComplete = currentState.todos.every((todo) => todo.complete);
-  //    final List<Todo> updatedTodos = currentState.todos
-  //        .map((todo) => todo.copyWith(complete: !allComplete))
-  //        .toList();
-  //    updatedTodos.forEach((updatedTodo) {
-  //      _todosRepository.updateTodo(updatedTodo);
-  //    });
-  //  }
-  //}
-
-  //Stream<TodosState> _mapClearCompletedToState() async* {
-  //  final currentState = state;
-  //  if (currentState is TodosLoaded) {
-  //    final List<Todo> completedTodos =
-  //        currentState.todos.where((todo) => todo.complete).toList();
-  //    completedTodos.forEach((completedTodo) {
-  //      _todosRepository.deleteTodo(completedTodo);
-  //    });
-  //  }
-  //}
-
-  //Stream<TodosState> _mapTodosUpdateToState(TodosUpdated event) async* {
-  //  yield TodosLoaded(event.todos);
-  //}
-
-  //@override
-  //Future<void> close() {
-  //  _todosSubscription?.cancel();
-  //  return super.close();
-  //}
 }

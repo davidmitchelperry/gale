@@ -8,8 +8,6 @@ import 'package:gale/home/home.dart';
 import 'package:gale/login/login.dart';
 import 'package:gale/splash/splash.dart';
 import 'package:gale/theme.dart';
-import 'package:gale/todos/todos.dart';
-import 'package:todos_repository/todos_repository.dart';
 import 'package:chat_repository/chat_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 
@@ -17,17 +15,14 @@ class App extends StatelessWidget {
   const App({
     Key key,
     @required this.authenticationRepository,
-    @required this.todosRepository,
     @required this.profileRepository,
     @required this.chatRepository,
   })  : assert(authenticationRepository != null),
-        assert(todosRepository != null),
         assert(profileRepository != null),
         assert(chatRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
-  final TodosRepository todosRepository;
   final ProfileRepository profileRepository;
   final ChatRepository chatRepository;
 
@@ -37,9 +32,6 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(
           value: authenticationRepository,
-        ),
-        RepositoryProvider.value(
-          value: todosRepository,
         ),
         RepositoryProvider.value(
           value: profileRepository,
@@ -53,11 +45,6 @@ class App extends StatelessWidget {
           BlocProvider<AuthenticationBloc>(
             create: (_) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
-            ),
-          ),
-          BlocProvider<TodosBloc>(
-            create: (_) => TodosBloc(
-              todosRepository: todosRepository,
             ),
           ),
           BlocProvider<ProfileBloc>(

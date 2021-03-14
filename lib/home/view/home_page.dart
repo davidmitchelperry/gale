@@ -6,8 +6,6 @@ import 'package:gale/authentication/authentication.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:gale/profile/profile.dart';
 import 'package:gale/home/home.dart';
-import 'package:gale/todos/todos.dart';
-import 'package:todos_repository/todos_repository.dart';
 
 class HomePage extends StatelessWidget {
   //final _navigatorKey = GlobalKey<NavigatorState>();
