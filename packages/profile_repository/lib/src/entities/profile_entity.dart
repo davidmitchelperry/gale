@@ -8,44 +8,44 @@ import 'package:equatable/equatable.dart';
 class ProfileEntity extends Equatable {
   final String firstName;
   final String lastName;
-  final String imagesUrl;
+  final String profilePicUrl;
 
-  const ProfileEntity(this.firstName, this.lastName, this.imagesUrl);
+  const ProfileEntity(this.firstName, this.lastName, this.profilePicUrl);
 
   Map<String, Object> toJson() {
     return {
       'firstName': firstName,
       'lastName': lastName,
-      'imagesUrl': imagesUrl,
+      'profilePicUrl': profilePicUrl,
     };
   }
 
   @override
-  List<Object> get props => [firstName, lastName, imagesUrl];
+  List<Object> get props => [firstName, lastName, profilePicUrl];
 
   @override
   String toString() {
-    return 'ProfileEntity { firstName: $firstName, lastName: $lastName, imagesUrl: $imagesUrl }';
+    return 'ProfileEntity { firstName: $firstName, lastName: $lastName, profilePicUrl: $profilePicUrl }';
   }
 
   static ProfileEntity fromJson(Map<String, Object> json) {
     return ProfileEntity(
       json['firstName'] as String,
       json['firstName'] as String,
-      json['imagesUrl'] as String,
+      json['profilePicUrl'] as String,
     );
   }
 
   static ProfileEntity fromSnapshot(DocumentSnapshot snap) {
     return ProfileEntity(snap.data()['firstName'], snap.data()['lastName'],
-        snap.data()['imagesUrl']);
+        snap.data()['profilePicUrl']);
   }
 
   Map<String, Object> toDocument() {
     return {
       'firstName': firstName,
       'lastName': lastName,
-      'profileUrl': imagesUrl,
+      'profileUrl': profilePicUrl,
     };
   }
 }

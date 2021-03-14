@@ -5,21 +5,21 @@ import '../entities/entities.dart';
 class Profile {
   final String firstName;
   final String lastName;
-  final String imagesUrl;
+  final String profilePicUrl;
 
-  Profile(this.firstName, this.lastName, this.imagesUrl);
+  Profile(this.firstName, this.lastName, this.profilePicUrl);
 
-  Profile copyWith({String firstName, String lastName, String imagesUrl}) {
+  Profile copyWith({String firstName, String lastName, String profilePicUrl}) {
     return Profile(
       firstName ?? this.firstName,
       lastName ?? this.lastName,
-      imagesUrl ?? this.imagesUrl,
+      profilePicUrl ?? this.profilePicUrl,
     );
   }
 
   @override
   int get hashCode =>
-      firstName.hashCode ^ lastName.hashCode ^ imagesUrl.hashCode;
+      firstName.hashCode ^ lastName.hashCode ^ profilePicUrl.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -28,22 +28,22 @@ class Profile {
           runtimeType == other.runtimeType &&
           firstName == other.firstName &&
           lastName == other.lastName &&
-          imagesUrl == other.imagesUrl;
+          profilePicUrl == other.profilePicUrl;
 
   @override
   String toString() {
-    return 'Profile{firstName: $firstName, lastName: $lastName, imagesUrl: $imagesUrl}';
+    return 'Profile{firstName: $firstName, lastName: $lastName, profilePicUrl: $profilePicUrl}';
   }
 
   ProfileEntity toEntity() {
-    return ProfileEntity(firstName, lastName, imagesUrl);
+    return ProfileEntity(firstName, lastName, profilePicUrl);
   }
 
   static Profile fromEntity(ProfileEntity entity) {
     return Profile(
       entity.firstName,
       entity.lastName,
-      entity.imagesUrl,
+      entity.profilePicUrl,
     );
   }
 }

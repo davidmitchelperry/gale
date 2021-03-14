@@ -52,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                   newWidget = CircularProgressIndicator();
                 } else if (state is ProfileLoaded) {
                   newWidget = CachedNetworkImage(
-                    imageUrl: state.profile.imagesUrl,
+                    imageUrl: state.profile.profilePicUrl,
                     width: 100,
                     height: 100,
                   );
