@@ -1,0 +1,47 @@
+import 'package:equatable/equatable.dart';
+import 'package:profile_repository/profile_repository.dart';
+
+abstract class InstagramState extends Equatable {
+  final String helloWorld;
+
+  const InstagramState(this.helloWorld);
+
+  @override
+  List<Object> get props => [];
+}
+
+class InstagramInit extends InstagramState {
+  final String helloWorld;
+
+  const InstagramInit(this.helloWorld) : super(helloWorld);
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'InstagramInit { }';
+}
+
+class InstagramLoading extends InstagramState {
+  final String helloWorld;
+
+  const InstagramLoading(this.helloWorld) : super(helloWorld);
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'InstagramLoading {}';
+}
+
+class InstagramLoaded extends InstagramState {
+  final String helloWorld;
+
+  const InstagramLoaded(this.helloWorld) : super(helloWorld);
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'InstagramLoaded {}';
+}

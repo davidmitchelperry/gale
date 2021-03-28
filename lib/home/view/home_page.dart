@@ -2,10 +2,12 @@ import 'package:chat_repository/chat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gale/authentication/authentication.dart';
+
 //import 'package:gale/chat/view/chat_page.dart';
 import 'package:gale/chat/chat.dart';
 import 'package:gale/profile/profile.dart';
 import 'package:gale/home/home.dart';
+import 'package:gale/instagram/instagram.dart';
 
 class HomePage extends StatelessWidget {
   //final _navigatorKey = GlobalKey<NavigatorState>();
@@ -68,6 +70,19 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     ChatNavigatorPage.route(),
+                  );
+                }),
+            RaisedButton(
+                key: const Key('RB_gotoInstagram'),
+                child: const Text('Goto Instagram'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                color: const Color(0xFFFFD600),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    InstagramPage.route(),
                   );
                 }),
           ],

@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gale/app.dart';
 import 'package:gale/simple_bloc_observer.dart';
 import 'package:profile_repository/profile_repository.dart';
+import 'package:instagram_repository/instagram_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +16,9 @@ void main() async {
   EquatableConfig.stringify = kDebugMode;
   Bloc.observer = SimpleBlocObserver();
   runApp(App(
-      authenticationRepository: AuthenticationRepository(),
-      profileRepository: FirebaseProfileRepository(),
-      chatRepository: FirebaseChatRepository(),
+    authenticationRepository: AuthenticationRepository(),
+    profileRepository: FirebaseProfileRepository(),
+    chatRepository: FirebaseChatRepository(),
+    instagramRepository: InstagramRepository(),
   ));
 }
