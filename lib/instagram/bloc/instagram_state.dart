@@ -22,6 +22,18 @@ class InstagramInit extends InstagramState {
   String toString() => 'InstagramInit { }';
 }
 
+class InstagramAtConsentScreen extends InstagramState {
+  final String helloWorld;
+
+  const InstagramAtConsentScreen(this.helloWorld) : super(helloWorld);
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'InstagramInit { }';
+}
+
 class InstagramLoading extends InstagramState {
   final String helloWorld;
 

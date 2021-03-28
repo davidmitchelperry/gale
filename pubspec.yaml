@@ -32,6 +32,8 @@ dependencies:
   meta: ^1.1.8
   pedantic: ^1.9.0
   cached_network_image: ^2.5.1
+  flutter_webview_plugin: ^0.3.11
+
 
   authentication_repository:
     path: packages/authentication_repository

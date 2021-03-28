@@ -9,12 +9,12 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:instagram_repository/instagram_repository.dart';
 
 class InstagramBloc extends Bloc<InstagramEvent, InstagramState> {
-  final InstagramRepository _instagramRepository;
+  final InstagramRepository instagramRepository;
 
   InstagramBloc({
     @required InstagramRepository instagramRepository,
   })  : assert(instagramRepository != null),
-        _instagramRepository = instagramRepository,
+        instagramRepository = instagramRepository,
         super(InstagramInit(instagramRepository.helloWorld()));
 
   //final ProfileRepository _profileRepository;
