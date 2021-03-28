@@ -16,4 +16,6 @@ dependencies:
   firebase_core: ^0.7.0
   authentication_repository:
     path: ../authentication_repository
+  http: ^0.12.2
+  flutter_webview_plugin: ^0.3.11
 
